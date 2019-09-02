@@ -1,0 +1,7 @@
+{
+  "appId": "com.nagare.balkrishna.omkar.todos",
+  "appName": "Todos",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

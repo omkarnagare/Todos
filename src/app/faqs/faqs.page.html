@@ -1,0 +1,41 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      FAQs
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <ion-card>
+    <ion-card-content>
+      <section class="questions-section">
+        <h1><b>F</b>requently <b>A</b>sked <b>Q</b>uestion<b>s</b></h1>
+
+        <h2>You have a bad taste Team Todos. I don't like the default color scheme.</h2>
+        <p>User can change the theme for the "Todos" app by going to "Theme" section of "Settings" page.</p>
+
+        <h2>I am facing an issue which is not listed here.</h2>
+        <p>Please use "Contact us" section in "Settings" page to write to us. Please be detailed and specific in your
+          query. The team borrowed will get in touch with you regarding the issue once we receive the issue. </p>
+
+        <h2>The "Todos" app is awesome. I want to know/meet/greet the developer to show the gratitude.</h2>
+        <p>Please don't forget to rate "Todos" app which you like so much. You can go to the "About developer"
+          section of "Settings" page to know about the Developer. And You can greet
+          Or meet the developer on the social platforms, links for which are provided.</p>
+
+        <h2>I want to donate some money to the developer. I want more apps like this from the developer</h2>
+        <p>No help is small. You can donate appropriate amount using google pay id <b>{{ googlePayId }}</b>
+          <ion-icon (click)="copyToClipboard()" style="color:rgb(23, 26, 199); font-size: 1.5em" name="clipboard">
+          </ion-icon>
+        </p>
+
+      </section>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

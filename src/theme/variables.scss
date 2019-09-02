@@ -74,4 +74,35 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /* Todos CSS */
+  ion-footer {
+		ion-toolbar {
+			ion-title{
+				text-align: center;
+				font-size: 1em
+			}
+		}
+  }
+  .social-icon-container {
+		text-align: center;
+		a>ion-icon {
+			margin: 4px;
+			font-size: 2.5em;
+		}
+  }
+  // pwa-toast > *{
+  //   background: var(--ion-color-primary);
+  //   // color: var(--ion-color-primary);
+  // }
+  ion-button.expand-button {
+		border-radius: 8px;
+		border-right-width: 0px;
+		border-left-width: 0px;
+		margin-left: 0px;
+		margin-right: 0px;
+		display: block;
+		width: 100%;
+		contain: content;
+	}
 }
