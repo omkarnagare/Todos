@@ -3,5 +3,12 @@
   "appName": "Todos",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "spinnerColor": "#620A44",
+      "showSpinner": true
+    }
+  }
 }
