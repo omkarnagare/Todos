@@ -16,3 +16,14 @@ export interface EmailShare {
     type?: String;
     app?: string;
 }
+
+export interface LogInCredentials {
+    email: string;
+    password: string;
+}
+
+export interface UserInfo {
+    name: string;
+    email: string;
+    profileImage?: string;
+}

@@ -1,0 +1,30 @@
+.text-center {
+    text-align: center;
+    ion-card-header {
+        padding-bottom: 0;
+    }
+}
+
+.facebook {
+    --background: #3b5998;
+    --background-activated: rgb(0, 0, 255);
+    --color: white;
+}
+
+.google {
+    --background: #dd4b39;
+    --background-activated: rgb(255, 0, 0);
+    --color: white;
+}
+
+.twitter {
+    --background: #1da1f2;
+    --background-activated: #005386;
+    --color: white;
+}
+
+.account-actions {
+    p {
+        text-align: right;
+    }
+}

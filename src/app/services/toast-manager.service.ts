@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
+import { ToastController } from '@ionic/angular';
 const { Toast } = Plugins;
 
 @Injectable({
@@ -7,11 +8,27 @@ const { Toast } = Plugins;
 })
 export class ToastManagerService {
 
-  constructor() { }
+  constructor(
+    private _toastController: ToastController
+  ) { }
 
   async presentToast(text: string) {
     await Toast.show({
       text: text
+    });
+  }
+
+  showToast(message: any, duration = 2000) {
+    const toast = this._toastController.create({
+      message: message,
+      duration: duration,
+      position: "bottom",
+      showCloseButton: true,
+      closeButtonText: "dismiss",
+      color: "primary"
+    });
+    toast.then((toastMessage) => {
+      toastMessage.present();
     });
   }
 }

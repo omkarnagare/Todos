@@ -13,7 +13,7 @@ export class FaqsPage implements OnInit {
   googlePayId: string;
 
   constructor(
-    private _toastService: ToastManagerService,
+    private _toastManager: ToastManagerService,
     private _clipBoardService: ClipboardManagerService
   ) {
     this.googlePayId = TodosAppConstants.GOOGLE_PAY_ID;
@@ -24,10 +24,10 @@ export class FaqsPage implements OnInit {
 
   copyToClipboard() {
     this._clipBoardService.write(this.googlePayId).then(() => {
-      this._toastService.presentToast("Google pay Id copied to clipboard.")
+      this._toastManager.showToast("Google pay Id copied to clipboard.")
     }).catch((error) => {
       console.error(error);
-      this._toastService.presentToast(error);
+      this._toastManager.showToast(error);
     })
   }
 

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { CanEnterLogInPageGuard } from './guards/can-enter-log-in-page.guard';
+import { CanEnterHomePageGuard } from './guards/can-enter-home-page.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +11,13 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    canActivate: [ CanEnterHomePageGuard ]
+  },
+  { 
+    path: 'log-in',
+    loadChildren: () => import('./log-in/log-in.module').then(m => m.LogInPageModule),
+    canActivate: [ CanEnterLogInPageGuard ]
   },
   {
     path: 'settings',
