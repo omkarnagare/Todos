@@ -1,3 +1,5 @@
+import { SideMenu } from './types';
+
 export class TodosAppConstants {
 
     public static APP_NAME = "Todos";
@@ -92,6 +94,20 @@ export class TodosAppConstants {
             dark: "#B89876"
         }
     }
+
+    // menu items
+    public static DEFAULT_SIDE_MENU_ITEMS: SideMenu[] = [
+        {
+            title: 'Home',
+            href: '/home',
+            icon: 'home'
+        },
+        {
+            title: 'Settings',
+            href: '/settings',
+            icon: 'settings'
+        }
+    ];
 }
 
 export enum UserState {

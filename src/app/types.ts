@@ -27,3 +27,10 @@ export interface UserInfo {
     email: string;
     profileImage?: string;
 }
+
+export interface SideMenu {
+    title: string;
+    href?: string;
+    icon?: string;
+    children?: SideMenu[];
+}

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { UserState, TodosAppConstants } from '../constants';
 
 import { Plugins } from '@capacitor/core';
-import { Platform, AlertController } from '@ionic/angular';
+import { Platform, AlertController, MenuController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
 import { LoaderManagerService } from '../services/loader-manager.service';
 import { ToastManagerService } from '../services/toast-manager.service';
@@ -31,6 +31,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private _router: Router,
     private _alertController: AlertController,
+    private _menuController: MenuController,
     private _loderManager: LoaderManagerService,
     private _toastManager: ToastManagerService,
     private _userService: UsersManagerService,
@@ -62,6 +63,14 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
         { type: 'required', message: 'Name cannot be left blank.' },
         { type: 'pattern', message: 'Not a valid name.' }]
     };
+  }
+
+  ionViewWillEnter() {
+    this._menuController.enable(false);
+  }
+
+  ionViewWillLeave() {
+    this._menuController.enable(true);
   }
 
   isError(name: string, validationType: string): boolean {
