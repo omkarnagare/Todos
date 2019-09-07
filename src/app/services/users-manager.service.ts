@@ -36,7 +36,8 @@ export class UsersManagerService {
       .set({
         name: userInfo.name,
         email: userInfo.email,
-        profileImage: "/assets/person.svg"
+        profileImage: userInfo.profileImage,
+        signedInWith: userInfo.signedInWith
       });
   }
 }

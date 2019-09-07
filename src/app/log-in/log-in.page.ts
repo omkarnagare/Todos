@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { UserState, TodosAppConstants } from '../constants';
+import { UserState, TodosAppConstants, SIGN_IN_OPTIONS } from '../constants';
 
-import { Plugins } from '@capacitor/core';
 import { Platform, AlertController, MenuController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
 import { LoaderManagerService } from '../services/loader-manager.service';
@@ -11,7 +10,12 @@ import { Router } from '@angular/router';
 import { LogInCredentials, UserInfo } from '../types';
 import { UsersManagerService } from '../services/users-manager.service';
 import { AdmobManagerService } from '../services/admob-manager.service';
+import { DeviceInfoService } from '../services/device-info.service';
+
+import { Plugins } from '@capacitor/core';
 const { SplashScreen } = Plugins;
+
+import { UserInfo as FirebaseUserInfo } from 'firebase/app';
 
 @Component({
   selector: 'app-log-in',
@@ -27,7 +31,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
 
   showPassword: boolean = false;
   userState: UserState;
-  isMobilePlatform: boolean = false;
+  isMobilePlatform: boolean = true;
 
   constructor(
     private _admobManager: AdmobManagerService, // to load ads
@@ -38,11 +42,13 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
     private _toastManager: ToastManagerService,
     private _userService: UsersManagerService,
     private _authenticationService: AuthenticationService,
+    private _deviceInfoService: DeviceInfoService,
     private _platform: Platform,
     formBuilder: FormBuilder
   ) {
-    // TODO: Add method to detect platform
-    // this.isMobilePlatform = this._platformInfoService.isMobilePlatform()
+    this._deviceInfoService.fetchDeviceInfo().then(() => {
+      this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
+    });
 
     this.userInfoFormGroup = formBuilder.group({
       name: ["", [Validators.required, Validators.pattern("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")]],
@@ -133,7 +139,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   handleError(error: any) {
     console.error(error);
     this._loderManager.stopLoader();
-    this._toastManager.showToast(error);
+    this._toastManager.showToast(error.message ? error.message : error);
   }
 
   handleSuccess(response: any) {
@@ -178,7 +184,11 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
           const credentials: LogInCredentials = this.userInfoFormGroup.value;
+
           const userInfo: UserInfo = this.userInfoFormGroup.value;
+          userInfo.profileImage = "/assets/person.svg";
+          userInfo.signedInWith = SIGN_IN_OPTIONS.EMAIL_PASSOWRD;
+
           this._authenticationService.signUp(credentials)
             .then((authData) => {
               this._userService.setUserInfo(userInfo).then(response => {
@@ -242,52 +252,67 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   logInWithFacebook() {
-    // this._authenticationService.logInWithFacebook().then(response => {
-    //   console.log(response);
-    //   this.setUserInfoInFirebase();
-    // }).catch(error => {
-    //   this.handleError(error);
-    // });
+    this._loderManager.presentLoader().then(() => {
+      this._authenticationService.logInWithFacebook().subscribe(
+        (user: FirebaseUserInfo) => {
+          console.log("Facebook User Info: ", user);
+          this.setUserInfoInFirebase({
+            profileImage: user.photoURL ? user.photoURL : "/assets/person.svg",
+            email: user.email,
+            name: user.displayName,
+            signedInWith: SIGN_IN_OPTIONS.FACEBOOK
+          });
+        },
+        (error) => {
+          this.handleError(error);
+        });
+    });
   }
 
   logInWithGooglePlus() {
-    // this._authenticationService.logInWithGooglePlus().then(response => {
-    //   console.log(response);
-    //   this.setUserInfoInFirebase();
-    // }).catch(error => {
-    //   this.handleError(error);
-    // });
+    this._loderManager.presentLoader().then(() => {
+      this._authenticationService.logInWithGooglePlus().subscribe(
+        (user: FirebaseUserInfo) => {
+          console.log("Google User Info: ", user);
+          this.setUserInfoInFirebase({
+            profileImage: user.photoURL ? user.photoURL : "/assets/person.svg",
+            email: user.email,
+            name: user.displayName,
+            signedInWith: SIGN_IN_OPTIONS.GOOGLE
+          });
+        },
+        (error) => {
+          this.handleError(error);
+        });
+    });
   }
 
   logInWithTwitter() {
-    // this._authenticationService.logInWithTwitter().then(response => {
-    //   console.log(response);
-    //   this.setUserInfoInFirebase();
-    // }).catch(error => {
-    //   this.handleError(error);
-    // });
+    this._loderManager.presentLoader().then(() => {
+      this._authenticationService.logInWithTwitter().subscribe(
+        (user: FirebaseUserInfo) => {
+          console.log("Twitter User Info: ", user);
+          this.setUserInfoInFirebase({
+            profileImage: user.photoURL ? user.photoURL : "/assets/person.svg",
+            email: user.email,
+            name: user.displayName,
+            signedInWith: SIGN_IN_OPTIONS.TWITTER
+          });
+        },
+        (error) => {
+          this.handleError(error);
+        });
+    });
   }
 
-  setUserInfoInFirebase() {
-    // this._authenticationService.getAuth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     const userInfo: SocialUserInfo = {
-    //       uid: user.uid,
-    //       displayName: user.displayName,
-    //       email: user.email,
-    //       emailVerified: user.emailVerified,
-    //       phoneNumber: user.phoneNumber,
-    //       photoURL: user.photoURL
-    //     };
-    //     this._userService.setUserInfoFromGooglePlus(userInfo).then(response => {
-    //       this._router.navigate(["/home"]);
-    //     }).catch(error => {
-    //       this._toastManager.showToast(error);
-    //     }).finally(() => {
-    //       this._loderManager.stopLoader();
-    //     });
-    //   }
-    // });
+  setUserInfoInFirebase(userInfo: UserInfo) {
+    this._userService.setUserInfo(userInfo).then(response => {
+      this._router.navigate(["/home"]);
+    }).catch(error => {
+      this._toastManager.showToast(error.message ? error.message : error);
+    }).finally(() => {
+      this._loderManager.stopLoader();
+    });
   }
 
 }

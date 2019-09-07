@@ -35,6 +35,7 @@ $RECYCLE.BIN/
 .firebase/
 src/environments/environment.ts
 src/environments/environment.prod.ts
+android/app/src/main/res/values/ids.xml
 google-services.json
 GoogleService-Info.plist
 package.json

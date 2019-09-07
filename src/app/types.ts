@@ -1,3 +1,5 @@
+import { SIGN_IN_OPTIONS } from './constants';
+
 export interface GenericShare {
     title?: string;
     text?: string;
@@ -26,6 +28,7 @@ export interface UserInfo {
     name: string;
     email: string;
     profileImage?: string;
+    signedInWith?: SIGN_IN_OPTIONS;
 }
 
 export interface SideMenu {

@@ -2,6 +2,7 @@ package com.nagare.balkrishna.omkar.todos;
 
 import android.os.Bundle;
 
+import com.baumblatt.capacitor.firebase.auth.CapacitorFirebaseAuth;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 import com.meetmaestro.hive.capacitor.email.EmailPlugin;
@@ -21,6 +22,7 @@ public class MainActivity extends BridgeActivity {
       // Ex: add(TotallyAwesomePlugin.class);
 	  add(EmailPlugin.class);
       add(AdMob.class);
+      add(CapacitorFirebaseAuth.class);
     }});
   }
 }

@@ -11,6 +11,7 @@ apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':teamhive-capacitor-email')
     implementation project(':capacitor-admob')
+    implementation project(':capacitor-firebase-auth')
 
 }
 

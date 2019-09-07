@@ -118,3 +118,10 @@ export enum UserState {
     SIGN_UP = 301,
     FORGOT_PASSWORD = 302
 }
+
+export enum SIGN_IN_OPTIONS {
+    EMAIL_PASSOWRD = 400,
+    GOOGLE = 401,
+    FACEBOOK = 402,
+    TWITTER = 403
+}

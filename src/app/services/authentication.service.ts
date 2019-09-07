@@ -4,6 +4,9 @@ import { LogInCredentials } from '../types';
 import { Observable } from 'rxjs';
 import { User } from 'firebase';
 
+import { cfaSignIn, mapUserToUserInfo, cfaSignOut } from 'capacitor-firebase-auth';
+import { UserInfo } from 'firebase/app';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,9 +27,31 @@ export class AuthenticationService {
     );
   }
 
+  logInWithGooglePlus(): Observable<UserInfo> {
+    return cfaSignIn('google.com').pipe(
+      mapUserToUserInfo(),
+    );
+  }
+
+  logInWithFacebook(): Observable<UserInfo> {
+    return cfaSignIn('facebook.com').pipe(
+      mapUserToUserInfo(),
+    );
+  }
+
+  logInWithTwitter(): Observable<UserInfo> {
+    return cfaSignIn('twitter.com').pipe(
+      mapUserToUserInfo(),
+    );
+  }
+
   logOut(): Promise<any> {
     return this._angularFireAuth.auth.signOut();
   }
+
+  // logOut(): Observable<void> {
+  //   return cfaSignOut();
+  // }
 
   signUp(credentials: LogInCredentials): Promise<any> {
     return this._angularFireAuth.auth.createUserWithEmailAndPassword(

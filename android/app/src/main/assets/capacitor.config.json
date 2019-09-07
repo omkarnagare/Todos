@@ -9,6 +9,20 @@
       "launchAutoHide": false,
       "spinnerColor": "#620A44",
       "showSpinner": true
+    },
+    "CapacitorFirebaseAuth": {
+      "providers": [
+        "google.com",
+        "twitter.com",
+        "facebook.com"
+      ],
+      "languageCode": "en",
+      "nativeAuth": false,
+      "permissions": {
+        "google": [
+          "profile"
+        ]
+      }
     }
   }
 }
