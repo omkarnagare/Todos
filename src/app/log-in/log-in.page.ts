@@ -10,6 +10,7 @@ import { ToastManagerService } from '../services/toast-manager.service';
 import { Router } from '@angular/router';
 import { LogInCredentials, UserInfo } from '../types';
 import { UsersManagerService } from '../services/users-manager.service';
+import { AdmobManagerService } from '../services/admob-manager.service';
 const { SplashScreen } = Plugins;
 
 @Component({
@@ -29,6 +30,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   isMobilePlatform: boolean = false;
 
   constructor(
+    private _admobManager: AdmobManagerService, // to load ads
     private _router: Router,
     private _alertController: AlertController,
     private _menuController: MenuController,

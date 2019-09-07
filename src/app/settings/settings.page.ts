@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { OnlineSharingManagerService } from '../services/online-sharing-manager.service';
 import { TodosAppConstants } from '../constants';
 import { DeviceInfoService } from '../services/device-info.service';
+import { LoaderManagerService } from '../services/loader-manager.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,6 +21,7 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private _platform: Platform,
     private _sharingManagerService: OnlineSharingManagerService,
+    private _loaderManager: LoaderManagerService,
     private _deviceInfoService: DeviceInfoService
   ) {
   }
@@ -44,10 +46,14 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   share() {
-    this._sharingManagerService.share({
-      title: this.getTitle(),
-      text: "Hello there!! I am using Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
-      dialogTitle: this.getTitle()
+    this._loaderManager.presentLoader().then(() => {
+      this._sharingManagerService.share({
+        title: this.getTitle(),
+        text: "Hello there!! I am using Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
+        dialogTitle: this.getTitle()
+      }).finally(() => {
+        this._loaderManager.stopLoader();
+      });
     });
   }
 

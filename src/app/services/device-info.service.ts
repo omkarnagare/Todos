@@ -12,21 +12,19 @@ export class DeviceInfoService {
   deviceInfo: DeviceInfo = null;
 
   constructor() {
-    if (null === this.deviceInfo) {
-      this.fetchDeviceInfo();
-    }
+    this.fetchDeviceInfo();
   }
 
   async fetchDeviceInfo() {
-    const info = await Device.getInfo();
-    console.log("device details: ", info);
-    this.deviceInfo = { ...info };
+    if (null === this.deviceInfo) {
+      const info = await Device.getInfo();
+      console.log("device details: ", info);
+      this.deviceInfo = { ...info };
+    }
   }
 
   async getDeviceInfo(): Promise<DeviceInfo> {
-    if (null === this.deviceInfo) {
-      await this.fetchDeviceInfo();
-    }
+    await this.fetchDeviceInfo();
     return this.deviceInfo;
   }
 

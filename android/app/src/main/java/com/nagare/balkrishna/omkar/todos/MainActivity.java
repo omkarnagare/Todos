@@ -4,10 +4,11 @@ import android.os.Bundle;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
+import com.meetmaestro.hive.capacitor.email.EmailPlugin;
 
 import java.util.ArrayList;
 
-import com.meetmaestro.hive.capacitor.email.EmailPlugin;
+import app.xplatform.capacitor.plugins.AdMob;
 
 public class MainActivity extends BridgeActivity {
   @Override
@@ -19,6 +20,7 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
 	  add(EmailPlugin.class);
+      add(AdMob.class);
     }});
   }
 }
