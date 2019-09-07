@@ -6,6 +6,7 @@ const { Share } = Plugins;
 
 import { Email } from '@teamhive/capacitor-email';
 import { TodosAppConstants } from '../constants';
+import { DeviceInfoService } from './device-info.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class OnlineSharingManagerService {
 
   email: any;
 
-  constructor() {
+  constructor(
+    private _deviceInfoService: DeviceInfoService
+  ) {
     this.email = new Email();
   }
 
@@ -22,7 +25,7 @@ export class OnlineSharingManagerService {
     return await Share.share({
       title: details.title,
       text: details.text,
-      url: details.url,
+      url: this._deviceInfoService.isAndroid() ? TodosAppConstants.ANDROID_APP_URL : TodosAppConstants.PWA_APP_URL,
       dialogTitle: details.dialogTitle
     });
   }
@@ -44,8 +47,8 @@ export class OnlineSharingManagerService {
         to: details.to,
         cc: details.cc,
         bcc: details.bcc,
-        subject: details.subject,
-        body: details.body,
+        subject: this._deviceInfoService.getAppDetails() + " - " + details.subject,
+        body: this._deviceInfoService.getDeviceDetails() + "\n" + details.body,
         isHtml: details.isHtml,
         attachments: details.attachments,
         app: TodosAppConstants.EMAIL_APP

@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
+import { OnlineSharingManagerService } from '../services/online-sharing-manager.service';
+import { TodosAppConstants } from '../constants';
+import { DeviceInfoService } from '../services/device-info.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,14 +15,18 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
   backButtonSubscription$: Subscription;
 
   appVersion: string;
+  isMobilePlatform: boolean = false;
 
   constructor(
-    private _platform: Platform
+    private _platform: Platform,
+    private _sharingManagerService: OnlineSharingManagerService,
+    private _deviceInfoService: DeviceInfoService
   ) {
   }
 
   ionViewDidEnter() {
-    this.appVersion = "0.1";
+    this.appVersion = this._deviceInfoService.getAppVersion();
+    this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
   }
 
   ngOnInit() {
@@ -34,6 +41,18 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.backButtonSubscription$.unsubscribe();
     this.backButtonSubscription$ = null;
+  }
+
+  share() {
+    this._sharingManagerService.share({
+      title: this.getTitle(),
+      text: "Hello there!! I am using Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
+      dialogTitle: this.getTitle()
+    });
+  }
+
+  getTitle() {
+    return "Welcome to the world of " + TodosAppConstants.APP_NAME;
   }
   // add back when alpha.4 is out
   // navigate(item) {

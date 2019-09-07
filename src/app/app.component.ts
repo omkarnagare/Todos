@@ -8,6 +8,7 @@ import { MenuControllerService } from './services/menu-controller.service';
 import { Subscription } from 'rxjs';
 import { SideMenu } from './types';
 import { TodosAppConstants } from './constants';
+import { DeviceInfoService } from './services/device-info.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private _themingService: ThemingService, // to load theme
+    private _deviceInfoService: DeviceInfoService, // to load device info at the start
     private _menuControllerService: MenuControllerService,
     private platform: Platform,
     private splashScreen: SplashScreen,

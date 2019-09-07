@@ -4,6 +4,8 @@ export class TodosAppConstants {
 
     public static APP_NAME = "Todos";
     public static APP_VERSION = "1.0.0";
+    public static ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";
+    public static PWA_APP_URL = "https://todos-o20121991.firebaseapp.com";
 
     // firestore
     public static USER_COLLECTION = "users";
@@ -17,6 +19,7 @@ export class TodosAppConstants {
     public static GOOGLE_PAY_ID = "omkar.balkrishan@okhdfcbank";
 
     //email message
+    public static SUPPORT_EMAIL = "omtechnologies.apps@gmail.com";
     public static EMAIL_APP = 'gmail';
     public static EMAIL_SENT_MESSAGE = 'The mail has been sent to Team Todos successfully. Team will contact you shortly if required.';
     public static GMAIL_NOT_FOUND_MESSAGE = 'Gmail account not found. Please log in to your account using Gmail app to proceed further.';

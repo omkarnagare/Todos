@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemingService } from '../services/theming.service';
-import { LoadingController } from '@ionic/angular';
 import { TodosAppConstants } from '../constants';
+import { LoaderManagerService } from '../services/loader-manager.service';
 
 @Component({
   selector: 'app-theme-controller',
@@ -18,25 +18,9 @@ export class ThemeControllerPage implements OnInit {
 
   constructor(
     private _themingService: ThemingService,
-    private _loadingController: LoadingController
+    private _loaderManager: LoaderManagerService
   ) {
     this.themes = this.processThemes();
-  }
-
-  async presentLoader() {
-    if (!this.loader) {
-      this.loader = await this._loadingController.create({
-        message: 'Changing Theme ...'
-      });
-      await this.loader.present();
-    }
-  }
-
-  async stopLoader() {
-    if (this.loader) {
-      await this.loader.dismiss();
-      this.loader = null;
-    }
   }
 
   processThemes() {
@@ -51,9 +35,9 @@ export class ThemeControllerPage implements OnInit {
   }
 
   setTheme(name) {
-    this.presentLoader().then(() => {
+    this._loaderManager.presentLoader().then(() => {
       this._themingService.setTheme(name);
-      this.stopLoader();
+      this._loaderManager.stopLoader();
     });
   }
 

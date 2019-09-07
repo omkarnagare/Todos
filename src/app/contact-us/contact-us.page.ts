@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { OnlineSharingManagerService } from '../services/online-sharing-manager.service';
 import { EmailShare } from '../types';
 import { TodosAppConstants } from '../constants';
+import { LoaderManagerService } from '../services/loader-manager.service';
+import { DeviceInfoService } from '../services/device-info.service';
+import { ClipboardManagerService } from '../services/clipboard-manager.service';
+import { ToastManagerService } from '../services/toast-manager.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -15,12 +19,17 @@ export class ContactUsPage implements OnInit {
   contactUsFormGroup: FormGroup;
   validationMessages: any;
 
-  loader: any = null;
+  isMobilePlatform: boolean = false;
+  deviceDetails: string;
+  supportEmail: string;
 
   constructor(
     private _alertController: AlertController,
-    private _loadingController: LoadingController,
+    private _loaderManager: LoaderManagerService,
     private _emailSharingService: OnlineSharingManagerService,
+    private _deviceInfoService: DeviceInfoService,
+    private _toastManager: ToastManagerService,
+    private _clipBoardService: ClipboardManagerService,
     formBuilder: FormBuilder
   ) {
     this.contactUsFormGroup = formBuilder.group({
@@ -41,6 +50,18 @@ export class ContactUsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.supportEmail = TodosAppConstants.SUPPORT_EMAIL;
+    this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
+    this.deviceDetails = this._deviceInfoService.getDeviceDetails();
+  }
+
+  copyToClipboard(text: string, type: string) {
+    this._clipBoardService.write(text).then(() => {
+      this._toastManager.showToast(type + " copied to clipboard.")
+    }).catch((error) => {
+      console.error(error);
+      this._toastManager.showToast(error);
+    })
   }
 
   async showAlertForSendingEmail() {
@@ -50,7 +71,7 @@ export class ContactUsPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.presentLoader().then(() => {
+            this._loaderManager.presentLoader().then(() => {
               this.sendEmail();
             });
           }
@@ -77,36 +98,20 @@ export class ContactUsPage implements OnInit {
     await alert.present();
   }
 
-  async presentLoader() {
-    if (!this.loader) {
-      this.loader = await this._loadingController.create({
-        message: 'Sending mail ...'
-      });
-      await this.loader.present();
-    }
-  }
-
-  async stopLoader() {
-    if (this.loader) {
-      await this.loader.dismiss();
-      this.loader = null;
-    }
-  }
-
   sendEmail() {
     const formValue = this.contactUsFormGroup.value;
     const details: EmailShare = {
-      to: ["omtechnologies.apps@gmail.com"],
+      to: [ this.supportEmail ],
       cc: [],
       bcc: [],
-      subject: "Issue with Todos: " + formValue.subject,
+      subject: "Regarding Issue: " + formValue.subject,
       body: formValue.body,
       isHtml: false
     };
 
     this._emailSharingService.sendEmail(details).then(response => {
       console.log(response);
-      this.stopLoader().then(() => {
+      this._loaderManager.stopLoader().then(() => {
         if (response) {
           // this.showAlert(TodosAppConstants.EMAIL_SENT_MESSAGE);
         } else {
@@ -115,7 +120,7 @@ export class ContactUsPage implements OnInit {
       });
     }).catch(error => {
       console.error(error);
-      this.stopLoader().then(() => {
+      this._loaderManager.stopLoader().then(() => {
         this.showAlert(TodosAppConstants.OPERATION_NOT_SUPPORTED_MESSAGE);
       });
     })
