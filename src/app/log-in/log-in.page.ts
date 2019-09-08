@@ -139,7 +139,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   handleError(error: any) {
     console.error(error);
     this._loderManager.stopLoader();
-    this._toastManager.showToast(error.message ? error.message : error);
+    this._toastManager.showErrorToast(error);
   }
 
   handleSuccess(response: any) {
@@ -309,7 +309,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
     this._userService.setUserInfo(userInfo).then(response => {
       this._router.navigate(["/home"]);
     }).catch(error => {
-      this._toastManager.showToast(error.message ? error.message : error);
+      this._toastManager.showErrorToast(error);
     }).finally(() => {
       this._loderManager.stopLoader();
     });

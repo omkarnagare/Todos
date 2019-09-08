@@ -60,7 +60,7 @@ export class ContactUsPage implements OnInit {
       this._toastManager.showToast(type + " copied to clipboard.")
     }).catch((error) => {
       console.error(error);
-      this._toastManager.showToast(error);
+      this._toastManager.showErrorToast(error);
     })
   }
 
@@ -101,7 +101,7 @@ export class ContactUsPage implements OnInit {
   sendEmail() {
     const formValue = this.contactUsFormGroup.value;
     const details: EmailShare = {
-      to: [ this.supportEmail ],
+      to: [this.supportEmail],
       cc: [],
       bcc: [],
       subject: "Regarding Issue: " + formValue.subject,

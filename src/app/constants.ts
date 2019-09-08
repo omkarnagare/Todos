@@ -2,6 +2,10 @@ import { SideMenu } from './types';
 
 export class TodosAppConstants {
 
+    public static USER_IMAGE_UPDATE_SUCCESS_MESSAGE = "Profile Image updated successfully.";
+    public static DISPLAY_NAME_UPDATE_SUCCESS_MESSAGE = "Display name updated successfully.";
+
+    // app details
     public static APP_NAME = "Todos";
     public static APP_VERSION = "1.0.0";
     public static ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";
@@ -106,6 +110,11 @@ export class TodosAppConstants {
             icon: 'home'
         },
         {
+            title: 'Account',
+            href: '/account-details',
+            icon: 'person'
+        },
+        {
             title: 'Settings',
             href: '/settings',
             icon: 'settings'
@@ -124,4 +133,10 @@ export enum SIGN_IN_OPTIONS {
     GOOGLE = 401,
     FACEBOOK = 402,
     TWITTER = 403
+}
+
+export enum ImageSourceType {
+    FRONT_CAMERA = 200,
+    BACK_CAMERA = 201,
+    GALLERY = 202
 }

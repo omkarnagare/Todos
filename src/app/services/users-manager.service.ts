@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ export class UsersManagerService {
 
   constructor(
     private _anugularFirestore: AngularFirestore,
-    private _angualrFireAuth: AngularFireAuth,
+    private _angualrFireAuth: AngularFireAuth
   ) { }
 
   getUserProfile(): Observable<any> {
@@ -21,13 +21,20 @@ export class UsersManagerService {
       .valueChanges();
   }
 
-  setUserProfileImage(imageData: any) {
-    // const image = TodosAppConstants.BASE64_IMAGE_PREFIX_DATA + imageData;
-    // return this._anugularFirestore.collection(TodosAppConstants.USER_COLLECTION)
-    //   .doc(this._angualrFireAuth.auth.currentUser.uid)
-    //   .update({
-    //     profileImage: image
-    //   });
+  updateUserProfileImage(photoDataURL: string): Promise<void> {
+    return this._anugularFirestore.collection(TodosAppConstants.USER_COLLECTION)
+      .doc(this._angualrFireAuth.auth.currentUser.uid)
+      .update({
+        profileImage: photoDataURL
+      });
+  }
+
+  updateUserDisplayName(displayName: string): Promise<void> {
+    return this._anugularFirestore.collection(TodosAppConstants.USER_COLLECTION)
+      .doc(this._angualrFireAuth.auth.currentUser.uid)
+      .update({
+        name: displayName
+      });
   }
 
   setUserInfo(userInfo: UserInfo) {

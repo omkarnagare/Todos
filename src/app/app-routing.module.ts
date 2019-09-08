@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CanEnterLogInPageGuard } from './guards/can-enter-log-in-page.guard';
 import { CanEnterHomePageGuard } from './guards/can-enter-home-page.guard';
+import { CanEnterAccountDetailsPageGuard } from './guards/can-enter-account-details-page.guard';
 
 const routes: Routes = [
   {
@@ -12,12 +13,17 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-    canActivate: [ CanEnterHomePageGuard ]
+    canActivate: [CanEnterHomePageGuard]
   },
-  { 
+  {
     path: 'log-in',
     loadChildren: () => import('./log-in/log-in.module').then(m => m.LogInPageModule),
-    canActivate: [ CanEnterLogInPageGuard ]
+    canActivate: [CanEnterLogInPageGuard]
+  },
+  {
+    path: 'account-details',
+    loadChildren: () => import('./account-details/account-details.module').then(m => m.AccountDetailsPageModule),
+    canActivate: [CanEnterAccountDetailsPageGuard]
   },
   {
     path: 'settings',

@@ -31,4 +31,18 @@ export class ToastManagerService {
       toastMessage.present();
     });
   }
+
+  showErrorToast(error: any, duration = 2000) {
+    const toast = this._toastController.create({
+      message: error.message ? error.message : error,
+      duration: duration,
+      position: "bottom",
+      showCloseButton: true,
+      closeButtonText: "dismiss",
+      color: "primary"
+    });
+    toast.then((toastMessage) => {
+      toastMessage.present();
+    });
+  }
 }
