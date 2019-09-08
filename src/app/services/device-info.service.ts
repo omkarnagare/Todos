@@ -11,9 +11,7 @@ export class DeviceInfoService {
 
   deviceInfo: DeviceInfo = null;
 
-  constructor() {
-    this.fetchDeviceInfo();
-  }
+  constructor() {}
 
   async fetchDeviceInfo() {
     if (null === this.deviceInfo) {

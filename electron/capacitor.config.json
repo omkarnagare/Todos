@@ -23,6 +23,13 @@
           "profile"
         ]
       }
+    },
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
     }
   }
 }

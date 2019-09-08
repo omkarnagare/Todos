@@ -51,15 +51,20 @@ export class ContactUsPage implements OnInit {
 
   ngOnInit() {
     this.supportEmail = TodosAppConstants.SUPPORT_EMAIL;
-    this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
-    this.deviceDetails = this._deviceInfoService.getDeviceDetails();
+    this._loaderManager.presentLoader().then(() => {
+      this._deviceInfoService.fetchDeviceInfo().then(() => {
+        this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
+        this.deviceDetails = this._deviceInfoService.getDeviceDetails();
+      }).finally(() => {
+        this._loaderManager.stopLoader();
+      });
+    });    
   }
 
   copyToClipboard(text: string, type: string) {
     this._clipBoardService.write(text).then(() => {
       this._toastManager.showToast(type + " copied to clipboard.")
     }).catch((error) => {
-      console.error(error);
       this._toastManager.showErrorToast(error);
     })
   }

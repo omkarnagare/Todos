@@ -47,4 +47,8 @@ export class UsersManagerService {
         signedInWith: userInfo.signedInWith
       });
   }
+
+  clearPersistence(): Promise<void> {
+    return this._anugularFirestore.firestore.clearPersistence();
+  }
 }

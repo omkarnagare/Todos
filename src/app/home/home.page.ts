@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
 import { AdmobManagerService } from '../services/admob-manager.service';
+import { LocalNotificationsService } from '../services/local-notifications.service';
 const { SplashScreen } = Plugins;
 
 @Component({
@@ -17,7 +18,8 @@ export class HomePage implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private _admobManager: AdmobManagerService, // to load ads
-    private _platform: Platform
+    private _platform: Platform,
+    private _localNotification: LocalNotificationsService
   ) { }
 
   ngOnInit() {
@@ -36,6 +38,14 @@ export class HomePage implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.backButtonSubscription$.unsubscribe();
     this.backButtonSubscription$ = null;
+  }
+
+  async showLocalNotification() {
+    await this._localNotification.showNotification({
+      title: 'Todos Notification',
+      body: 'This is a sample notification',
+      id: 1
+    });
   }
 
 }

@@ -137,7 +137,6 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleError(error: any) {
-    console.error(error);
     this._loderManager.stopLoader();
     this._toastManager.showErrorToast(error);
   }
@@ -186,16 +185,26 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
           const credentials: LogInCredentials = this.userInfoFormGroup.value;
 
           const userInfo: UserInfo = this.userInfoFormGroup.value;
-          userInfo.profileImage = "/assets/person.svg";
+          userInfo.profileImage = TodosAppConstants.USER_DEFAULT_IMAGE;
           userInfo.signedInWith = SIGN_IN_OPTIONS.EMAIL_PASSOWRD;
 
           this._authenticationService.signUp(credentials)
             .then((authData) => {
-              this._userService.setUserInfo(userInfo).then(response => {
-                this.handleSuccess(response);
-              }).catch(error => {
-                this.handleError(error);
-              });
+
+              // this._userService.clearPersistence().then(() => {
+              //   console.log("firestore data cleared");
+              // }).catch(error => {
+              //   console.error(error);
+              //   // this._toastManager.showErrorToast(error);
+              // }).finally(() => {
+                // save user data with firebase
+                this._userService.setUserInfo(userInfo).then(response => {
+                  this.handleSuccess(response);
+                }).catch(error => {
+                  this.handleError(error);
+                });
+              // })
+
             }).catch((authDataError) => {
               this.handleError(authDataError);
             });
@@ -257,7 +266,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
         (user: FirebaseUserInfo) => {
           console.log("Facebook User Info: ", user);
           this.setUserInfoInFirebase({
-            profileImage: user.photoURL ? user.photoURL : "/assets/person.svg",
+            profileImage: user.photoURL ? user.photoURL : TodosAppConstants.USER_DEFAULT_IMAGE,
             email: user.email,
             name: user.displayName,
             signedInWith: SIGN_IN_OPTIONS.FACEBOOK
@@ -275,7 +284,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
         (user: FirebaseUserInfo) => {
           console.log("Google User Info: ", user);
           this.setUserInfoInFirebase({
-            profileImage: user.photoURL ? user.photoURL : "/assets/person.svg",
+            profileImage: user.photoURL ? user.photoURL : TodosAppConstants.USER_DEFAULT_IMAGE,
             email: user.email,
             name: user.displayName,
             signedInWith: SIGN_IN_OPTIONS.GOOGLE
@@ -293,7 +302,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
         (user: FirebaseUserInfo) => {
           console.log("Twitter User Info: ", user);
           this.setUserInfoInFirebase({
-            profileImage: user.photoURL ? user.photoURL : "/assets/person.svg",
+            profileImage: user.photoURL ? user.photoURL : TodosAppConstants.USER_DEFAULT_IMAGE,
             email: user.email,
             name: user.displayName,
             signedInWith: SIGN_IN_OPTIONS.TWITTER
@@ -306,13 +315,22 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setUserInfoInFirebase(userInfo: UserInfo) {
-    this._userService.setUserInfo(userInfo).then(response => {
-      this._router.navigate(["/home"]);
-    }).catch(error => {
-      this._toastManager.showErrorToast(error);
-    }).finally(() => {
-      this._loderManager.stopLoader();
-    });
+    // // first clear data from previous user
+    // this._userService.clearPersistence().then(() => {
+    //   console.log("firestore data cleared");
+    // }).catch(error => {
+    //   this._toastManager.showErrorToast(error);
+    // }).finally(() => {
+      // save user data with firebase
+      this._userService.setUserInfo(userInfo).then(response => {
+        this._router.navigate(["/home"]);
+      }).catch(error => {
+        console.error(error);
+        // this._toastManager.showErrorToast(error);
+      }).finally(() => {
+        this._loderManager.stopLoader();
+      });
+    // });
   }
 
 }

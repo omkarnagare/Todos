@@ -37,3 +37,9 @@ export interface SideMenu {
     icon?: string;
     children?: SideMenu[];
 }
+
+export interface NotificationConfig {
+    title: string;
+    body: string;
+    id: number;
+}

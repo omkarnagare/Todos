@@ -8,7 +8,7 @@ import { MenuControllerService } from './services/menu-controller.service';
 import { Subscription } from 'rxjs';
 import { SideMenu } from './types';
 import { TodosAppConstants } from './constants';
-import { DeviceInfoService } from './services/device-info.service';
+import { PushNotificationsService } from './services/push-notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -21,12 +21,13 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private _themingService: ThemingService, // to load theme
-    private _deviceInfoService: DeviceInfoService, // to load device info at the start
+    private _pushNotifications: PushNotificationsService,
     private _menuControllerService: MenuControllerService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
   ) {
+    this._pushNotifications.registerPushNotifications();
     this.menuItemChanges$ = this._menuControllerService.menuItemsChanges$.subscribe((menuItems) => {
       this.appPages = [...menuItems];
     });

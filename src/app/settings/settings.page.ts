@@ -27,8 +27,10 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ionViewDidEnter() {
-    this.appVersion = this._deviceInfoService.getAppVersion();
-    this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
+    this._deviceInfoService.fetchDeviceInfo().then(() => {
+      this.appVersion = this._deviceInfoService.getAppVersion();
+      this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
+    });    
   }
 
   ngOnInit() {

@@ -26,7 +26,6 @@ export class FaqsPage implements OnInit {
     this._clipBoardService.write(this.googlePayId).then(() => {
       this._toastManager.showToast("Google pay Id copied to clipboard.")
     }).catch((error) => {
-      console.error(error);
       this._toastManager.showErrorToast(error);
     })
   }

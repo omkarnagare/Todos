@@ -10,6 +10,8 @@ export class TodosAppConstants {
     public static APP_VERSION = "1.0.0";
     public static ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";
     public static PWA_APP_URL = "https://todos-o20121991.firebaseapp.com";
+    public static USER_DEFAULT_IMAGE = "./assets/person.svg";
+    public static PUSH_NOTIFICATION_TITLE = "Notification from Team Todos";
 
     // firestore
     public static USER_COLLECTION = "users";

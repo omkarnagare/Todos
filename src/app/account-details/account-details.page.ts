@@ -8,6 +8,7 @@ import { CameraAccessService } from '../services/camera-access.service';
 import { ToastManagerService } from '../services/toast-manager.service';
 import { LoaderManagerService } from '../services/loader-manager.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-details',
@@ -28,6 +29,7 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
   isCameraAvailable: boolean = false;
 
   constructor(
+    private _router: Router,
     private _usersService: UsersManagerService,
     private _authenticationService: AuthenticationService,
     private _cameraAccessService: CameraAccessService,
@@ -129,7 +131,6 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
         });
       });
     }).catch(error => {
-      console.error(error);
       this._toastManager.showErrorToast(error);
     })
   }
@@ -169,11 +170,16 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   logOut() {
-    this._authenticationService.logOut().then(() => {
-      console.log("User logged out successfully");
-      window.location.reload();
-    }).catch((error) => {
-      console.error("Log Out Error :", error);
+    this._loaderManager.presentLoader().then(() => {
+      this._authenticationService.logOut().then(() => {
+        console.log("User logged out successfully");
+        this._router.navigate(["/log-in"]);
+        // window.location.reload();
+      }).catch((error) => {
+        this._toastManager.showErrorToast(error);
+      }).finally(() => {
+        this._loaderManager.stopLoader();
+      });
     });
   }
 

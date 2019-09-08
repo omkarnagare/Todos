@@ -33,6 +33,7 @@ export class ToastManagerService {
   }
 
   showErrorToast(error: any, duration = 2000) {
+    console.error(error);
     const toast = this._toastController.create({
       message: error.message ? error.message : error,
       duration: duration,
