@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
-import { AdmobManagerService } from '../services/admob-manager.service';
 import { LocalNotificationsService } from '../services/local-notifications.service';
+import { ConfirmExitService } from '../services/confirm-exit.service';
+import { PinVerificationService } from '../services/pin-verification.service';
+import { PinUnlockPage } from '../pin-unlock/pin-unlock.page';
+import { PIN_STATE } from '../constants';
 const { SplashScreen } = Plugins;
 
 @Component({
@@ -17,21 +20,48 @@ export class HomePage implements OnInit, OnDestroy, AfterViewInit {
   backButtonSubscription$: Subscription;
 
   constructor(
-    private _admobManager: AdmobManagerService, // to load ads
     private _platform: Platform,
-    private _localNotification: LocalNotificationsService
+    private _pinVerification: PinVerificationService,
+    private _localNotification: LocalNotificationsService,
+    private _confirmExitService: ConfirmExitService,
+    private _modalController: ModalController
   ) { }
 
   ngOnInit() {
   }
 
   ionViewDidEnter() {
-    SplashScreen.hide();
+    this._pinVerification.isVerified().then((data) => {
+      if (data.verified) {
+        // safe to go ahead
+      } else {
+        this.openPinVerifyModal(data.pin);
+      }
+      SplashScreen.hide();
+    });
+  }
+
+  async openPinVerifyModal(expectedPIN: string = "") {
+    console.log(expectedPIN);
+    const pinModalOfHome = await this._modalController.create({
+      component: PinUnlockPage,
+      componentProps: {
+        title: "Enter PIN",
+        pinSetupState: PIN_STATE.VERIFY_PIN,
+        expectedPIN: expectedPIN
+      },
+      backdropDismiss: false // user cannot dissmiss by clicking outside
+    });
+    pinModalOfHome.onDidDismiss()
+      .then((data) => {
+        this._pinVerification.verified = true;
+      });
+    return await pinModalOfHome.present();
   }
 
   ngAfterViewInit() {
     this.backButtonSubscription$ = this._platform.backButton.subscribe(() => {
-      navigator['app'].exitApp();
+      this._confirmExitService.confirmExit();
     });
   }
 

@@ -1,0 +1,47 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Your Activity
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <div *ngIf="monthlyActivities === null">
+    <ion-card *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
+      <ion-skeleton-text animated></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-card>
+  </div>
+
+  <div *ngIf="monthlyActivities !== null && monthlyActivities.length === 0" @fadein>
+    <ion-card class="card-center" routerLink="/tabs/add-item">
+      <ion-card-header>
+        <ion-card-title>No Activities recorded yet !!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>It seems you haven't used Mr.Todos for a while !!</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="monthlyActivities !== null" @fadein>
+    <ion-list *ngIf="monthlyActivities.length > 0" no-margin no-padding lines="none">
+      <ion-list *ngFor="let monthlyActivity of monthlyActivities" no-margin no-padding lines="none">
+          <ion-list-header style="border: 2px solid var(--ion-color-secondary); border-radius: 8px;">{{ monthlyActivity.monthlyTimeline }}</ion-list-header>
+          <ion-item *ngFor="let activity of monthlyActivity.activities; let i = index;" class="item-grid-content">
+            <ion-icon [name]="fetchIcon(i)" slot="start" style="color: var(--ion-color-secondary);"></ion-icon>
+            <ion-label style="white-space: initial; font-size: 12px;">
+              {{ activity.activityDetails }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+    </ion-list>
+  </div>
+
+</ion-content>

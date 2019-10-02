@@ -6,6 +6,11 @@
     <ion-title>
       Account
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="user-activity">
+        <ion-icon slot="icon-only" name="filing"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -50,7 +55,7 @@
             </ion-row>
           </ion-grid>
 
-          <div *ngIf="!editingName">
+          <div *ngIf="!editingName" @fadein>
             <ion-item>
               <ion-icon slot="start" name="person"></ion-icon>
               <ion-label>{{ userProfile.name }}</ion-label>
@@ -59,7 +64,7 @@
           </div>
 
           <form [formGroup]="userInfoFormGroup">
-            <div *ngIf="editingName">
+            <div *ngIf="editingName" @fadein>
               <ion-item>
                 <ion-icon slot="start" name="person"></ion-icon>
                 <ion-icon *ngIf="userInfoFormGroup.valid && userInfoFormGroup.dirty" slot="end" name="checkmark"
@@ -81,6 +86,37 @@
             <ion-icon slot="start" name="mail"></ion-icon>
             <ion-label>{{ userProfile.email }}</ion-label>
           </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Security</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+
+        <div *ngIf="userProfile === null">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </div>
+
+        <div *ngIf="userProfile !== null">
+          <div>
+            <ion-item *ngIf="!userProfile.pin" (click)="confirmPinAction(500)">
+              <ion-icon style="color:black" slot="start" name="apps"></ion-icon>
+              <ion-label>Set PIN</ion-label>
+            </ion-item>
+            <ion-item *ngIf="userProfile.pin" (click)="confirmPinAction(501, userProfile.pin)">
+              <ion-icon style="color:black" slot="start" name="apps"></ion-icon>
+              <ion-label>Change PIN</ion-label>
+            </ion-item>
+            <ion-item *ngIf="userProfile.pin" (click)="confirmPinAction(503, userProfile.pin)">
+              <ion-icon style="color:red" slot="start" name="apps"></ion-icon>
+              <ion-label>Remove PIN</ion-label>
+            </ion-item>
+          </div>
         </div>
       </ion-card-content>
     </ion-card>

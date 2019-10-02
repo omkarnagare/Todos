@@ -5,9 +5,13 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { PinUnlockPageModule } from '../pin-unlock/pin-unlock.module';
+import { ScrollVanishDirectiveModule } from '../directives/scroll-vanish.directive.module';
 
 @NgModule({
   imports: [
+    ScrollVanishDirectiveModule,
+    PinUnlockPageModule,
     CommonModule,
     FormsModule,
     IonicModule,
@@ -20,4 +24,4 @@ import { HomePage } from './home.page';
   ],
   declarations: [HomePage]
 })
-export class HomePageModule {}
+export class HomePageModule { }

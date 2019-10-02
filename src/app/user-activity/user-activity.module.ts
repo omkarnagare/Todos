@@ -1,29 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AccountDetailsPage } from './account-details.page';
-import { PinUnlockPageModule } from '../pin-unlock/pin-unlock.module';
+import { UserActivityPage } from './user-activity.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: AccountDetailsPage
+    component: UserActivityPage
   }
 ];
 
 @NgModule({
   imports: [
-    PinUnlockPageModule,
-    ReactiveFormsModule,
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AccountDetailsPage]
+  declarations: [UserActivityPage]
 })
-export class AccountDetailsPageModule { }
+export class UserActivityPageModule {}

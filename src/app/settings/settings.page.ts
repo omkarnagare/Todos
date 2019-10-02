@@ -7,6 +7,7 @@ import { DeviceInfoService } from '../services/device-info.service';
 import { LoaderManagerService } from '../services/loader-manager.service';
 
 import { trigger, state, transition, style, animate } from '@angular/animations';
+import { ConfirmExitService } from '../services/confirm-exit.service';
 
 @Component({
   selector: 'app-settings',
@@ -57,7 +58,8 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
     private _platform: Platform,
     private _sharingManagerService: OnlineSharingManagerService,
     private _loaderManager: LoaderManagerService,
-    private _deviceInfoService: DeviceInfoService
+    private _deviceInfoService: DeviceInfoService,
+    private _confirmExitService: ConfirmExitService
   ) {
   }
 
@@ -73,7 +75,7 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.backButtonSubscription$ = this._platform.backButton.subscribe(() => {
-      navigator['app'].exitApp();
+      this._confirmExitService.confirmExit();
     });
   }
 
@@ -99,9 +101,9 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
     // TODO: change URLS
     if (this._deviceInfoService.isMobilePlatform()) {
       if (this._deviceInfoService.isAndroid()) {
-        return "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.borrowed";
+        return "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";
       } else if (this._deviceInfoService.isIOS()) {
-        return "https://borrowed-o20121991.firebaseapp.com/";
+        return "https://todos-o20121991.firebaseapp.com/";
       }
     }
     return null;

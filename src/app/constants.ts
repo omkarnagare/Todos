@@ -16,10 +16,11 @@ export class TodosAppConstants {
     // firestore
     public static USER_COLLECTION = "users";
     public static TODOS_COLLECTION = "todos";
+    public static ACTIVITIES_COLLECTION = "activities";
 
     //sqlite storage keys
     public static DEFAULT_APP_THEME = "blue";
-    public static APP_THEME = "settings.borrowedTheme";
+    public static APP_THEME = "settings.mrTodosTheme";
 
     //google pay info
     public static GOOGLE_PAY_ID = "omkar.balkrishan@okhdfcbank";
@@ -47,6 +48,13 @@ export class TodosAppConstants {
     public static WEAK_PASSWORD_CODE = "auth/weak-password";
     public static WEAK_PASSWORD_MESSAGE = "Weak Password. Please try again.";
     public static LOGIN_FAILED_MESSAGE = "Log In failed. Please try again";
+
+    //pin modal keys
+    public static PIN_MODAL_TITLE_KEY = "title";
+    public static EXPECTED_PIN_KEY = "expectedPIN";
+    public static PIN_SET_UP_STATE_KEY = "pinSetupState";
+    public static PIN_KEY = "pin";
+    public static PIN_VERIFIED_KEY = "verified";
 
     //general constants
     public static INVALID_FIELDS_MESSAGE = "Please fill all the fields with appropriate values.";
@@ -141,6 +149,12 @@ export class TodosAppConstants {
     ];
 }
 
+export enum ImageSourceType {
+    FRONT_CAMERA = 200,
+    BACK_CAMERA = 201,
+    GALLERY = 202
+}
+
 export enum UserState {
     LOG_IN = 300,
     SIGN_UP = 301,
@@ -154,8 +168,16 @@ export enum SIGN_IN_OPTIONS {
     TWITTER = 403
 }
 
-export enum ImageSourceType {
-    FRONT_CAMERA = 200,
-    BACK_CAMERA = 201,
-    GALLERY = 202
+export enum PIN_STATE {
+    SET_PIN = 500,
+    CHANGE_PIN = 501,
+    VERIFY_PIN = 502,
+    REMOVE_PIN = 503
+}
+
+export enum UserActivityType {
+    ADD = 700,
+    UPDATE = 701,
+    COMPLETE = 702,
+    DELETE = 703
 }

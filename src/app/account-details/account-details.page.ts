@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { AlertController, ActionSheetController, Platform } from '@ionic/angular';
+import { AlertController, ActionSheetController, Platform, ModalController } from '@ionic/angular';
 import { Subscription, Observable } from 'rxjs';
 import { UsersManagerService } from '../services/users-manager.service';
-import { ImageSourceType, TodosAppConstants } from '../constants';
+import { ImageSourceType, TodosAppConstants, PIN_STATE } from '../constants';
 import { CameraAccessService } from '../services/camera-access.service';
 import { ToastManagerService } from '../services/toast-manager.service';
 import { LoaderManagerService } from '../services/loader-manager.service';
@@ -11,6 +11,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { trigger, state, transition, style, animate } from '@angular/animations';
+import { ConfirmExitService } from '../services/confirm-exit.service';
+import { PinVerificationService } from '../services/pin-verification.service';
+import { PinModalData } from '../types';
+import { PinUnlockPage } from '../pin-unlock/pin-unlock.page';
 
 @Component({
   selector: 'app-account-details',
@@ -67,12 +71,15 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _router: Router,
     private _usersService: UsersManagerService,
+    private _pinVerification: PinVerificationService,
     private _authenticationService: AuthenticationService,
     private _cameraAccessService: CameraAccessService,
     private _toastManager: ToastManagerService,
     private _loaderManager: LoaderManagerService,
     private _alertController: AlertController,
+    private _modalController: ModalController,
     private _actionSheetController: ActionSheetController,
+    private _confirmExitService: ConfirmExitService,
     private _platform: Platform,
     formBuilder: FormBuilder
   ) {
@@ -106,7 +113,7 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.backButtonSubscription$ = this._platform.backButton.subscribe(() => {
-      navigator['app'].exitApp();
+      this._confirmExitService.confirmExit();
     });
   }
 
@@ -224,6 +231,130 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
         // window.location.reload();
       }).catch((error) => {
         this._toastManager.showErrorToast(error);
+      }).finally(() => {
+        this._loaderManager.stopLoader();
+      });
+    });
+  }
+
+  async confirmPinAction(pinSetupState: PIN_STATE, expectedPIN: string = "") {
+    let message: string;
+    let header: string;
+    switch (pinSetupState) {
+      case PIN_STATE.SET_PIN:
+        header = 'Set 4-digit PIN';
+        message = 'This will set up a PIN for your account. Once set, You won\'t be able to access your data without valid PIN. Do you want to continue ?';
+        break;
+      // case PIN_STATE.VERIFY_PIN:
+      //   message = "";
+      //   break;
+      case PIN_STATE.CHANGE_PIN:
+        header = 'Change PIN';
+        message = 'This will change the PIN for your account. Do you want to continue ?';
+        break;
+      case PIN_STATE.REMOVE_PIN:
+        header = 'Remove PIN';
+        message = 'Are you sure you want remove the PIN. This will leave your data unsupervised ?';
+        break;
+    }
+    const alert = await this._alertController.create({
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.openPinModal(pinSetupState, expectedPIN);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async openPinModal(pinSetupState: PIN_STATE, expectedPIN: string = "") {
+    let pinModalData: PinModalData;
+    switch (pinSetupState) {
+      case PIN_STATE.SET_PIN:
+      case PIN_STATE.VERIFY_PIN:
+        pinModalData = {
+          title: "Enter PIN",
+        };
+        break;
+      case PIN_STATE.CHANGE_PIN:
+      case PIN_STATE.REMOVE_PIN:
+        pinModalData = {
+          title: "Verify PIN",
+        };
+        break;
+    }
+    pinModalData.pinSetupState = pinSetupState;
+    pinModalData.expectedPIN = expectedPIN;
+
+    const pinModalOfAccount = await this._modalController.create({
+      component: PinUnlockPage,
+      componentProps: pinModalData,
+    });
+
+    pinModalOfAccount.onDidDismiss()
+      .then((data) => {
+        const response = data.data;
+        if (response) {
+          const pinModalData: PinModalData = {};
+          if (response[TodosAppConstants.PIN_KEY]) {
+            pinModalData.pin = response[TodosAppConstants.PIN_KEY];
+          }
+          if (response[TodosAppConstants.PIN_VERIFIED_KEY]) {
+            pinModalData.verified = response[TodosAppConstants.PIN_VERIFIED_KEY];
+          }
+          if (response[TodosAppConstants.PIN_SET_UP_STATE_KEY]) {
+            pinModalData.pinSetupState = response[TodosAppConstants.PIN_SET_UP_STATE_KEY];
+          }
+          this.processPinModalData(pinModalData);
+        } else {
+          // no need to take any action
+        }
+      });
+
+    return await pinModalOfAccount.present();
+  }
+
+  processPinModalData(pinModalData: PinModalData) {
+    switch (pinModalData.pinSetupState) {
+      case PIN_STATE.SET_PIN:
+      case PIN_STATE.CHANGE_PIN:
+        console.log(pinModalData.pin);
+        this.setPin(pinModalData.pin);
+        break;
+      case PIN_STATE.REMOVE_PIN:
+        this.removePin();
+        break;
+      // case PIN_STATE.VERIFY_PIN:
+      //   break;
+    }
+  }
+
+  setPin(pin: string) {
+    this._loaderManager.presentLoader().then(() => {
+      this._usersService.setPIN(pin).then((data) => {
+        // this._toastManager.showToast("PIN set successfully");
+        this._pinVerification.pin = pin;
+        this._pinVerification.verified = true;
+      }).finally(() => {
+        this._loaderManager.stopLoader();
+      });
+    });
+  }
+
+  removePin() {
+    this._loaderManager.presentLoader().then(() => {
+      this._usersService.removePIN().then((data) => {
+        // this._toastManager.showToast("PIN removed successfully");
+        this._pinVerification.verified = true;
       }).finally(() => {
         this._loaderManager.stopLoader();
       });

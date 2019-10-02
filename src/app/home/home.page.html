@@ -1,5 +1,5 @@
 <ion-header translucent>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" [scrollVanish]="body">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -9,7 +9,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-button (click)="showLocalNotification()" class="expand-button" color="primary"> Show Local Notification
+<ion-content #body scrollEvents="true">
+  <div *ngFor="let i of [1,2,3,4,5,6,1,2,3,4,5,6]">
+    <ion-button (click)="showLocalNotification()" class="expand-button" color="secondary"> Show Local Notification
+    </ion-button>
+    <ion-button (click)="showLocalNotification()" class="expand-button" color="secondary"> Show Local Notification
       </ion-button>
+  </div>
 </ion-content>

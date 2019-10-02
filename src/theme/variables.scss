@@ -118,6 +118,20 @@
 			}
 		}
   }
+  ion-card {
+		border-radius: 12px;
+  }
+  ion-segment-button {
+		--border-radius: 8px;
+		--border-width: 2px;
+  }
+  ion-searchbar {
+		.searchbar-input-container {
+			.searchbar-input {
+				border-radius: 16px;
+			}
+		}
+	}
   .social-icon-container {
 		text-align: center;
 		a>ion-icon {

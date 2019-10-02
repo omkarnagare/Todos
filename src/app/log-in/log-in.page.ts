@@ -17,6 +17,7 @@ const { SplashScreen } = Plugins;
 import { UserInfo as FirebaseUserInfo } from 'firebase/app';
 
 import { trigger, state, transition, style, animate } from '@angular/animations';
+import { ConfirmExitService } from '../services/confirm-exit.service';
 
 @Component({
   selector: 'app-log-in',
@@ -76,6 +77,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
     private _userService: UsersManagerService,
     private _authenticationService: AuthenticationService,
     private _deviceInfoService: DeviceInfoService,
+    private _confirmExitService: ConfirmExitService,
     private _platform: Platform,
     formBuilder: FormBuilder
   ) {
@@ -132,7 +134,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.backButtonSubscription$ = this._platform.backButton.subscribe(() => {
-      navigator['app'].exitApp();
+      this._confirmExitService.confirmExit();
     });
   }
 

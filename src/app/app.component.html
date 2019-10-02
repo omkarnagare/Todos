@@ -3,7 +3,9 @@
     <ion-menu type="overlay">
       <ion-header translucent>
         <ion-toolbar color="primary">
-          <ion-title>Mr.Todos</ion-title>
+          <ion-title>
+              {{ userProfile !== null ? ("Hi, "+ userProfile.name) : "Welcome to Mr.Todos" }}
+          </ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content>

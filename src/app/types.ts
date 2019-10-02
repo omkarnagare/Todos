@@ -1,4 +1,4 @@
-import { SIGN_IN_OPTIONS } from './constants';
+import { SIGN_IN_OPTIONS, PIN_STATE } from './constants';
 
 export interface GenericShare {
     title?: string;
@@ -42,4 +42,23 @@ export interface NotificationConfig {
     title: string;
     body: string;
     id: number;
+}
+
+export interface PinModalData {
+    title?: string;
+    expectedPIN?: string;
+    pinSetupState?: PIN_STATE;
+    pin?: string;
+    verified?: boolean;
+}
+
+export interface Activity {
+    activityId?: string;
+    activityDetails?: string;
+    activityDate?: string;
+}
+
+export interface MonthlyActivities {
+    monthlyTimeline?: string;
+    activities?: Activity[];
 }

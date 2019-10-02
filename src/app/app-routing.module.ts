@@ -37,8 +37,17 @@ const routes: Routes = [
   },
   {
     path: 'account-details',
-    loadChildren: () => import('./account-details/account-details.module').then(m => m.AccountDetailsPageModule),
-    canActivate: [CanEnterAccountDetailsPageGuard]
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./account-details/account-details.module').then(m => m.AccountDetailsPageModule),
+        canActivate: [CanEnterAccountDetailsPageGuard]
+      },
+      {
+        path: 'user-activity',
+        loadChildren: () => import('./user-activity/user-activity.module').then(m => m.UserActivityPageModule)
+      }
+    ]
   },
   {
     path: 'settings',
