@@ -45,6 +45,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':capacitor-cordova-android-plugins')
     implementation 'com.facebook.android:facebook-android-sdk:5.2.0'
+
+    implementation "com.google.android.gms:play-services-ads:16.0.0"
+    implementation "com.google.android.gms:play-services-auth:16.0.0"
+    implementation "com.google.android.gms:play-services-identity:16.0.0"
 }
 
 apply from: 'capacitor.build.gradle'

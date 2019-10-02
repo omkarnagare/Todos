@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "907734253555",
+    "firebase_url": "https://todos-o20121991.firebaseio.com",
+    "project_id": "todos-o20121991",
+    "storage_bucket": "todos-o20121991.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907734253555:android:ded45229d0f2234a3b5c86",
+        "android_client_info": {
+          "package_name": "com.nagare.balkrishna.omkar.todos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907734253555-6b4ramteffsuv3971dgbpfij6iqb21a2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nagare.balkrishna.omkar.todos",
+            "certificate_hash": "deefff13dc29c8761ac72c1b618e150e1f40ff7b"
+          }
+        },
+        {
+          "client_id": "907734253555-2r0kbg3tn7snaultif2ccarl0n3hah3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzpI4DDWdB7vJfBJFBd1zTHEjDhJdg6IM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907734253555-2r0kbg3tn7snaultif2ccarl0n3hah3d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "907734253555-for6mddu8u36qbsvomgqonqhe7t3flh4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nagare.balkrishna.omkar.todos"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

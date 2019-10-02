@@ -31,15 +31,7 @@ plugins/ios.json
 $RECYCLE.BIN/
 
 *.apk
-.firebaserc
 .firebase/
-src/environments/environment.ts
-src/environments/environment.prod.ts
-android/app/src/main/res/values/ids.xml
-google-services.json
-GoogleService-Info.plist
-config.xml
-ionic.config.json
 
 .DS_Store
 Thumbs.db

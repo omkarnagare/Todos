@@ -42,7 +42,7 @@ export class HomePage implements OnInit, OnDestroy, AfterViewInit {
 
   async showLocalNotification() {
     await this._localNotification.showNotification({
-      title: 'Todos Notification',
+      title: 'Mr.Todos Notification',
       body: 'This is a sample notification',
       id: 1
     });

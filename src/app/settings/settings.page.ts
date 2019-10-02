@@ -86,7 +86,7 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
     this._loaderManager.presentLoader().then(() => {
       this._sharingManagerService.share({
         title: this.getTitle(),
-        text: "Hello there!! I am using Mr. Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
+        text: "Hello there!! I am using Mr.Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
         dialogTitle: this.getTitle(),
         url: this.getAppURL()
       }).finally(() => {

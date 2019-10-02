@@ -112,7 +112,7 @@ export class ContactUsPage implements OnInit {
 
   async showAlertForSendingEmail() {
     const alert = await this._alertController.create({
-      message: 'This will send a email to Team Todos. Would you like to continue?',
+      message: 'This will send a email to Team Mr.Todos. Would you like to continue?',
       buttons: [
         {
           text: 'Yes',

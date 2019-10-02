@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Todos</string>
-    <string name="title_activity_main">Todos</string>
+    <string name="app_name">Mr.Todos</string>
+    <string name="title_activity_main">Mr.Todos</string>
     <string name="package_name">com.nagare.balkrishna.omkar.todos</string>
     <string name="fileprovider_authority">com.nagare.balkrishna.omkar.todos.fileprovider</string>
     <string name="custom_url_scheme">com.nagare.balkrishna.omkar.todos</string>

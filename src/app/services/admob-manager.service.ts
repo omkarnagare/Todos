@@ -51,8 +51,10 @@ export class AdmobManagerService {
 
   async showInterstitialAd() {
     if (this.isAndroid) {
-      const interStitialAdConfig: AdOptions = { ...environment.admobConfig.INTERSTITIAL_AD_CONFIG };
-      AdMob.prepareInterstitial(interStitialAdConfig)
+      const interstitialAdConfig: AdOptions = { ...environment.admobConfig.INTERSTITIAL_AD_CONFIG };
+      interstitialAdConfig.position = AdPosition.CENTER;
+      interstitialAdConfig.adSize =  AdSize.SMART_BANNER;
+      AdMob.prepareInterstitial(interstitialAdConfig)
         .then(
           (value) => {
             console.log(value);  // true

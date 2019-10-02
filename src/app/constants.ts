@@ -6,12 +6,12 @@ export class TodosAppConstants {
     public static DISPLAY_NAME_UPDATE_SUCCESS_MESSAGE = "Display name updated successfully.";
 
     // app details
-    public static APP_NAME = "Todos";
+    public static APP_NAME = "Mr.Todos";
     public static APP_VERSION = "1.0";
     public static ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";
     public static PWA_APP_URL = "https://todos-o20121991.firebaseapp.com";
     public static USER_DEFAULT_IMAGE = "./assets/person.svg";
-    public static PUSH_NOTIFICATION_TITLE = "Notification from Team Todos";
+    public static PUSH_NOTIFICATION_TITLE = "Notification from Team Mr.Todos";
 
     // firestore
     public static USER_COLLECTION = "users";
@@ -27,9 +27,9 @@ export class TodosAppConstants {
     //email message
     public static SUPPORT_EMAIL = "omtechnologies.apps@gmail.com";
     public static EMAIL_APP = 'gmail';
-    public static EMAIL_SENT_MESSAGE = 'The mail has been sent to Team Todos successfully. Team will contact you shortly if required.';
+    public static EMAIL_SENT_MESSAGE = 'The mail has been sent to Team Mr.Todos successfully. Team will contact you shortly if required.';
     public static GMAIL_NOT_FOUND_MESSAGE = 'Gmail account not found. Please log in to your account using Gmail app to proceed further.';
-    public static OPERATION_NOT_SUPPORTED_MESSAGE = 'This operation is not supported. Please try in android or ios version of the Todos';
+    public static OPERATION_NOT_SUPPORTED_MESSAGE = 'This operation is not supported. Please try in android or ios version of the Mr.Todos';
 
     //login 
     public static NO_USER_FOUND_CODE = "auth/user-not-found";
