@@ -40,15 +40,20 @@ export class UsersManagerService {
   setUserInfo(userInfo: UserInfo) {
     return this._anugularFirestore.collection(TodosAppConstants.USER_COLLECTION)
       .doc(this._angualrFireAuth.auth.currentUser.uid)
-      .set({
-        name: userInfo.name,
+      .update({
         email: userInfo.email,
-        profileImage: userInfo.profileImage,
         signedInWith: userInfo.signedInWith
+      }).catch(error => {
+        console.error(error);
+        this._anugularFirestore.collection(TodosAppConstants.USER_COLLECTION)
+          .doc(this._angualrFireAuth.auth.currentUser.uid)
+          .set({
+            name: userInfo.name,
+            email: userInfo.email,
+            profileImage: userInfo.profileImage,
+            signedInWith: userInfo.signedInWith
+          });
       });
   }
 
-  clearPersistence(): Promise<void> {
-    return this._anugularFirestore.firestore.clearPersistence();
-  }
 }

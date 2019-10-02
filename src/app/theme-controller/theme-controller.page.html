@@ -9,20 +9,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
+<ion-content fullscreen *ngIf="showThemeSelection">
 
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Pick a Theme by clicking on one of the Theme-box below : </ion-card-subtitle>
+      <ion-card-subtitle @fadein>Pick a Theme by clicking on one of the Theme-box below : </ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="themes-container">
+    <ion-card-content class="themes-container" @slidetoptitle>
       <span class="theme-circles" [style.background-color]="theme.color" *ngFor="let theme of themes"
         (click)="setTheme(theme.name)">
       </span>
     </ion-card-content>
   </ion-card>
 
-  <ion-list class="preview-theme">
+  <ion-list class="preview-theme" @fadein>
     <ion-list-header>
       Theme Colors (Read Only)
     </ion-list-header>

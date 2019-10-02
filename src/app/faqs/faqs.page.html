@@ -11,7 +11,7 @@
 
 <ion-content fullscreen>
 
-  <ion-card>
+  <ion-card *ngIf="showFAQs" @fadein>
     <ion-card-content>
       <section class="questions-section">
         <h1><b>F</b>requently <b>A</b>sked <b>Q</b>uestion<b>s</b></h1>

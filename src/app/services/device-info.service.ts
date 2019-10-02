@@ -31,7 +31,7 @@ export class DeviceInfoService {
   }
 
   getAppVersion() {
-    return this.deviceInfo.appVersion;
+    return this.isMobilePlatform() ? this.deviceInfo.appVersion: TodosAppConstants.APP_VERSION;
   }
 
   getDeviceDetails() {

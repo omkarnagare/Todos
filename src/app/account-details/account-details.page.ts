@@ -10,20 +10,56 @@ import { LoaderManagerService } from '../services/loader-manager.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { trigger, state, transition, style, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-account-details',
   templateUrl: './account-details.page.html',
   styleUrls: ['./account-details.page.scss'],
+  animations: [
+    trigger('fadein', [
+      state('void', style({ opacity: 0 })),
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('600ms ease-out', style({ opacity: 1 }))
+      ])
+    ]),
+    trigger('slidelefttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('sliderighttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidetoptitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidebottomtitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
 
-  storedUserProfile: Observable<any>;
-  storedUserProfile$: Subscription;
+  userProfile: any = null;
+  userProfile$: Subscription;
 
   userInfoFormGroup: FormGroup;
   validationMessages: any;
   editingName: boolean = false;
 
+  showAccountDetails: boolean = false;
   backButtonSubscription$: Subscription;
 
   isCameraAvailable: boolean = false;
@@ -40,6 +76,12 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
     private _platform: Platform,
     formBuilder: FormBuilder
   ) {
+
+    this.userProfile$ = this._usersService.getUserProfile().subscribe(data => {
+      console.log("userProfile", data);
+      this.userProfile = data;
+    });
+
     this._cameraAccessService.isCameraAvailable().then((isCameraAvailable) => {
       this.isCameraAvailable = isCameraAvailable;
     });
@@ -60,10 +102,6 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.storedUserProfile = this._usersService.getUserProfile();
-    this.storedUserProfile$ = this.storedUserProfile.subscribe(data => {
-      console.log("storedUserProfile", data);
-    });
   }
 
   ngAfterViewInit() {
@@ -72,13 +110,23 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  ionViewDidEnter() {
+    this.showAccountDetails = true;
+  }
+
+  ionViewWillLeave() {
+    this.showAccountDetails = false;
+  }
+
   ngOnDestroy() {
     this.backButtonSubscription$.unsubscribe();
     this.backButtonSubscription$ = null;
 
-    this.storedUserProfile$.unsubscribe();
-    this.storedUserProfile$ = null;
-    this.storedUserProfile = null;
+    if (this.userProfile$) {
+      this.userProfile$.unsubscribe();
+      this.userProfile$ = null;
+      this.userProfile = null;
+    }
   }
 
   async selectImageSource() {
@@ -120,7 +168,6 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
 
   async takePicture(type: ImageSourceType) {
     this._cameraAccessService.takePicture(type).then((photoDataURL: string) => {
-      // console.log("photoDataURL", photoDataURL);
       this._loaderManager.presentLoader().then(() => {
         this._usersService.updateUserProfileImage(photoDataURL).then(() => {
           this._toastManager.showToast(TodosAppConstants.USER_IMAGE_UPDATE_SUCCESS_MESSAGE);
@@ -182,15 +229,5 @@ export class AccountDetailsPage implements OnInit, AfterViewInit, OnDestroy {
       });
     });
   }
-
-  // logOut() {
-  //   this._authenticationService.logOut().subscribe(() => {
-  //     console.log("User logged out successfully");
-  //     window.location.reload();
-  //   },
-  //   (error) => {
-  //     console.error("Log Out Error :", error);
-  //   });
-  // }
 
 }

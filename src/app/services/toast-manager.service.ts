@@ -25,7 +25,8 @@ export class ToastManagerService {
       position: "bottom",
       showCloseButton: true,
       closeButtonText: "dismiss",
-      color: "primary"
+      color: "primary",
+      cssClass: "todos-toast"
     });
     toast.then((toastMessage) => {
       toastMessage.present();
@@ -40,7 +41,8 @@ export class ToastManagerService {
       position: "bottom",
       showCloseButton: true,
       closeButtonText: "dismiss",
-      color: "primary"
+      color: "danger",
+      cssClass: "todos-toast"
     });
     toast.then((toastMessage) => {
       toastMessage.present();

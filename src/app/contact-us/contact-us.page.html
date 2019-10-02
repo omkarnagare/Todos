@@ -10,11 +10,32 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <div *ngIf="isMobilePlatform">
+
+  <div *ngIf="isMobilePlatform === null">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="isMobilePlatform !== null && isMobilePlatform === true" @fadein>
     <form [formGroup]="contactUsFormGroup">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Facing issue with Todos??</ion-card-title>
+          <ion-card-title>Facing issue with Mr. Todos??</ion-card-title>
           <ion-card-subtitle>
             <p>Don't worry, We are here to help you.</p>
             <p>Fill in the following details.</p>
@@ -54,10 +75,10 @@
     </form>
   </div>
 
-  <div *ngIf="!isMobilePlatform">
+  <div *ngIf="isMobilePlatform !== null && isMobilePlatform === false" @fadein>
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Facing issue with Todos??</ion-card-title>
+        <ion-card-title>Facing issue with Mr. Todos??</ion-card-title>
         <ion-card-subtitle>
           <p>Don't worry, We are here to help you.</p>
           <p>Use the following information to write to us.</p>

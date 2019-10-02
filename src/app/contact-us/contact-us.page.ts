@@ -8,18 +8,54 @@ import { LoaderManagerService } from '../services/loader-manager.service';
 import { DeviceInfoService } from '../services/device-info.service';
 import { ClipboardManagerService } from '../services/clipboard-manager.service';
 import { ToastManagerService } from '../services/toast-manager.service';
+import { AdmobManagerService } from '../services/admob-manager.service';
+
+import { trigger, state, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-contact-us',
   templateUrl: './contact-us.page.html',
   styleUrls: ['./contact-us.page.scss'],
+  animations: [
+    trigger('fadein', [
+      state('void', style({ opacity: 0 })),
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('600ms ease-out', style({ opacity: 1 }))
+      ])
+    ]),
+    trigger('slidelefttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('sliderighttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidetoptitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidebottomtitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class ContactUsPage implements OnInit {
 
   contactUsFormGroup: FormGroup;
   validationMessages: any;
 
-  isMobilePlatform: boolean = false;
+  isMobilePlatform: boolean = null;
   deviceDetails: string;
   supportEmail: string;
 
@@ -30,6 +66,7 @@ export class ContactUsPage implements OnInit {
     private _deviceInfoService: DeviceInfoService,
     private _toastManager: ToastManagerService,
     private _clipBoardService: ClipboardManagerService,
+    private _admobManager: AdmobManagerService,
     formBuilder: FormBuilder
   ) {
     this.contactUsFormGroup = formBuilder.group({
@@ -47,6 +84,10 @@ export class ContactUsPage implements OnInit {
 
   isError(name: string, validationType: string): boolean {
     return this.contactUsFormGroup.get(name).hasError(validationType) && (this.contactUsFormGroup.get(name).dirty || this.contactUsFormGroup.get(name).touched)
+  }
+
+  ionViewDidEnter() {
+    this._admobManager.showInterstitialAd();
   }
 
   ngOnInit() {

@@ -125,8 +125,22 @@
 			font-size: 2.5em;
 		}
   }
-  .toast-container {
-		background: var(--ion-color-primary);
+  .todos-toast {
+		--border-radius: 16px;
+  }
+  .loading-wrapper {
+		border-radius: 16px;
+  }
+  .alert-wrapper {
+		border-radius: 16px;
+		.alert-message {
+			color: black;
+		}
+		.alert-button-group {
+			button {
+				color: black;
+			}
+		}
 	}
   ion-button.expand-button {
 		border-radius: 8px;

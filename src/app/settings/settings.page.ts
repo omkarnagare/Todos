@@ -6,10 +6,45 @@ import { TodosAppConstants } from '../constants';
 import { DeviceInfoService } from '../services/device-info.service';
 import { LoaderManagerService } from '../services/loader-manager.service';
 
+import { trigger, state, transition, style, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-settings',
   templateUrl: 'settings.page.html',
-  styleUrls: ['settings.page.scss']
+  styleUrls: ['settings.page.scss'],
+  animations: [
+    trigger('fadein', [
+      state('void', style({ opacity: 0 })),
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('600ms ease-out', style({ opacity: 1 }))
+      ])
+    ]),
+    trigger('slidelefttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('sliderighttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidetoptitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidebottomtitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
 
@@ -30,7 +65,7 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
     this._deviceInfoService.fetchDeviceInfo().then(() => {
       this.appVersion = this._deviceInfoService.getAppVersion();
       this.isMobilePlatform = this._deviceInfoService.isMobilePlatform();
-    });    
+    });
   }
 
   ngOnInit() {
@@ -51,19 +86,28 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
     this._loaderManager.presentLoader().then(() => {
       this._sharingManagerService.share({
         title: this.getTitle(),
-        text: "Hello there!! I am using Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
-        dialogTitle: this.getTitle()
+        text: "Hello there!! I am using Mr. Todos to help me manage my tasks. It's simply amazing and very easy to use. To install, use the following link : ",
+        dialogTitle: this.getTitle(),
+        url: this.getAppURL()
       }).finally(() => {
         this._loaderManager.stopLoader();
       });
     });
   }
 
+  getAppURL(): string {
+    // TODO: change URLS
+    if (this._deviceInfoService.isMobilePlatform()) {
+      if (this._deviceInfoService.isAndroid()) {
+        return "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.borrowed";
+      } else if (this._deviceInfoService.isIOS()) {
+        return "https://borrowed-o20121991.firebaseapp.com/";
+      }
+    }
+    return null;
+  }
+
   getTitle() {
     return "Welcome to the world of " + TodosAppConstants.APP_NAME;
   }
-  // add back when alpha.4 is out
-  // navigate(item) {
-  //   this.router.navigate(['/list', JSON.stringify(item)]);
-  // }
 }

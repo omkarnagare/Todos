@@ -7,7 +7,7 @@ export class TodosAppConstants {
 
     // app details
     public static APP_NAME = "Todos";
-    public static APP_VERSION = "1.0.0";
+    public static APP_VERSION = "1.0";
     public static ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";
     public static PWA_APP_URL = "https://todos-o20121991.firebaseapp.com";
     public static USER_DEFAULT_IMAGE = "./assets/person.svg";
@@ -30,6 +30,23 @@ export class TodosAppConstants {
     public static EMAIL_SENT_MESSAGE = 'The mail has been sent to Team Todos successfully. Team will contact you shortly if required.';
     public static GMAIL_NOT_FOUND_MESSAGE = 'Gmail account not found. Please log in to your account using Gmail app to proceed further.';
     public static OPERATION_NOT_SUPPORTED_MESSAGE = 'This operation is not supported. Please try in android or ios version of the Todos';
+
+    //login 
+    public static NO_USER_FOUND_CODE = "auth/user-not-found";
+    public static NO_USER_FOUND_MESSAGE = "No such user exists. Please sign up to create new user.";
+    public static WRONG_PASSWORD_CODE = "auth/wrong-password";
+    public static WRONG_PASSWORD_MESSAGE = "Wrong Password. Please try again.";
+    public static USER_DISABLED_CODE = "auth/user-disabled";
+    public static USER_DISABLED_MESSAGE = "This user account is deactivated. Please sign up to create new user.";
+    public static INVALID_USER_EMAIL_CODE = "auth/invalid-email";
+    public static INVALID_USER_EMAIL_MESSAGE = "Invalid Email. Please try again with correct email.";
+    public static EMAIL_ALREADY_IN_USE_CODE = "auth/email-already-in-use";
+    public static EMAIL_ALREADY_IN_USE_MESSAGE = "The user already exists. Try logging in or use forgot password to continue.";
+    public static EMAIL_NOT_ENABLED_CODE = "auth/operation-not-allowed";
+    public static EMAIL_NOT_ENABLED_MESSAGE = "This method of authentication is not enabled.";
+    public static WEAK_PASSWORD_CODE = "auth/weak-password";
+    public static WEAK_PASSWORD_MESSAGE = "Weak Password. Please try again.";
+    public static LOGIN_FAILED_MESSAGE = "Log In failed. Please try again";
 
     //general constants
     public static INVALID_FIELDS_MESSAGE = "Please fill all the fields with appropriate values.";

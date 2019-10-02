@@ -17,10 +17,45 @@ const { SplashScreen } = Plugins;
 
 import { UserInfo as FirebaseUserInfo } from 'firebase/app';
 
+import { trigger, state, transition, style, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.page.html',
   styleUrls: ['./log-in.page.scss'],
+  animations: [
+    trigger('fadein', [
+      state('void', style({ opacity: 0 })),
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('600ms ease-out', style({ opacity: 1 }))
+      ])
+    ]),
+    trigger('slidelefttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('sliderighttitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidetoptitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ]),
+    trigger('slidebottomtitle', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(+150%)' }),
+        animate('600ms 200ms ease-out', style({ transform: 'translateY(0%)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
 
@@ -157,7 +192,17 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
             .then((authData) => {
               this.handleSuccess(authData);
             }).catch((authDataError) => {
-              this.handleError(authDataError);
+              if (authDataError.code === TodosAppConstants.NO_USER_FOUND_CODE) {
+                this.handleError(TodosAppConstants.NO_USER_FOUND_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.WRONG_PASSWORD_CODE) {
+                this.handleError(TodosAppConstants.WRONG_PASSWORD_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.USER_DISABLED_CODE) {
+                this.handleError(TodosAppConstants.USER_DISABLED_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.INVALID_USER_EMAIL_CODE) {
+                this.handleError(TodosAppConstants.INVALID_USER_EMAIL_MESSAGE);
+              } else {
+                this.handleError(authDataError);
+              }
             });
         } else {
           this._toastManager.showToast(TodosAppConstants.INVALID_FIELDS_MESSAGE);
@@ -187,26 +232,26 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
           const userInfo: UserInfo = this.userInfoFormGroup.value;
           userInfo.profileImage = TodosAppConstants.USER_DEFAULT_IMAGE;
           userInfo.signedInWith = SIGN_IN_OPTIONS.EMAIL_PASSOWRD;
-
           this._authenticationService.signUp(credentials)
             .then((authData) => {
-
-              // this._userService.clearPersistence().then(() => {
-              //   console.log("firestore data cleared");
-              // }).catch(error => {
-              //   console.error(error);
-              //   // this._toastManager.showErrorToast(error);
-              // }).finally(() => {
-                // save user data with firebase
-                this._userService.setUserInfo(userInfo).then(response => {
-                  this.handleSuccess(response);
-                }).catch(error => {
-                  this.handleError(error);
-                });
-              // })
-
+              // save user data with firebase
+              this._userService.setUserInfo(userInfo).then(response => {
+                this.handleSuccess(response);
+              }).catch(error => {
+                this.handleError(error);
+              });
             }).catch((authDataError) => {
-              this.handleError(authDataError);
+              if (authDataError.code === TodosAppConstants.EMAIL_ALREADY_IN_USE_CODE) {
+                this.handleError(TodosAppConstants.EMAIL_ALREADY_IN_USE_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.WEAK_PASSWORD_CODE) {
+                this.handleError(TodosAppConstants.WEAK_PASSWORD_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.EMAIL_NOT_ENABLED_CODE) {
+                this.handleError(TodosAppConstants.EMAIL_NOT_ENABLED_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.INVALID_USER_EMAIL_CODE) {
+                this.handleError(TodosAppConstants.INVALID_USER_EMAIL_MESSAGE);
+              } else {
+                this.handleError(authDataError);
+              }
             });
         } else {
           this._toastManager.showToast(TodosAppConstants.INVALID_FIELDS_MESSAGE);
@@ -229,10 +274,17 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
           this._authenticationService.resetPassword(this.userInfoFormGroup.get('email').value)
             .then(response => {
               console.log(response);
-              this._loderManager.stopLoader();
-              this.showAlertForResetPassword();
-            }).catch(error => {
-              this.handleError(error);
+              this._loderManager.stopLoader().then(() => {
+                this.showAlertForResetPassword();
+              });
+            }).catch(authDataError => {
+              if (authDataError.code === TodosAppConstants.NO_USER_FOUND_CODE) {
+                this.handleError(TodosAppConstants.NO_USER_FOUND_MESSAGE);
+              } else if (authDataError.code === TodosAppConstants.INVALID_USER_EMAIL_CODE) {
+                this.handleError(TodosAppConstants.INVALID_USER_EMAIL_MESSAGE);
+              } else {
+                this.handleError(authDataError);
+              }
             });
         } else {
           this._toastManager.showToast(TodosAppConstants.INVALID_FIELDS_MESSAGE);
@@ -273,7 +325,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
           });
         },
         (error) => {
-          this.handleError(error);
+          this.handleError(TodosAppConstants.LOGIN_FAILED_MESSAGE);
         });
     });
   }
@@ -291,7 +343,7 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
           });
         },
         (error) => {
-          this.handleError(error);
+          this.handleError(TodosAppConstants.LOGIN_FAILED_MESSAGE);
         });
     });
   }
@@ -309,28 +361,20 @@ export class LogInPage implements OnInit, OnDestroy, AfterViewInit {
           });
         },
         (error) => {
-          this.handleError(error);
+          this.handleError(TodosAppConstants.LOGIN_FAILED_MESSAGE);
         });
     });
   }
 
   setUserInfoInFirebase(userInfo: UserInfo) {
-    // // first clear data from previous user
-    // this._userService.clearPersistence().then(() => {
-    //   console.log("firestore data cleared");
-    // }).catch(error => {
-    //   this._toastManager.showErrorToast(error);
-    // }).finally(() => {
-      // save user data with firebase
-      this._userService.setUserInfo(userInfo).then(response => {
-        this._router.navigate(["/home"]);
-      }).catch(error => {
-        console.error(error);
-        // this._toastManager.showErrorToast(error);
-      }).finally(() => {
-        this._loderManager.stopLoader();
-      });
-    // });
+    // save user data with firebase
+    this._userService.setUserInfo(userInfo).then(response => {
+      this._router.navigate(["/home"]);
+    }).catch(error => {
+      console.error(error);
+    }).finally(() => {
+      this._loderManager.stopLoader();
+    });
   }
 
 }

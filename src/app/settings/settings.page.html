@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen @fadein>
 
   <ion-list>
     <ion-item routerLink="faqs">
@@ -40,12 +40,9 @@
       <ion-icon style="color:blue" slot="start" name="logo-freebsd-devil"></ion-icon>
       <ion-label>About Developer</ion-label>
     </ion-item>
+    <ion-item>
+      Version {{ appVersion }}
+    </ion-item>
   </ion-list>
 
 </ion-content>
-
-<ion-footer *ngIf="isMobilePlatform">
-  <ion-toolbar>
-    <ion-title>v{{ appVersion }}</ion-title>
-  </ion-toolbar>
-</ion-footer>
