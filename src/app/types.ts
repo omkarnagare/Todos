@@ -62,3 +62,12 @@ export interface MonthlyActivities {
     monthlyTimeline?: string;
     activities?: Activity[];
 }
+
+export interface Todo {
+    todoId?: string;
+    todoDescription?: string;
+    tags?: string[];
+    entryDate?: string;
+    targetDate?: string;
+    isPending?: boolean;
+}

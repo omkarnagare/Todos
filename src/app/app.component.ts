@@ -22,6 +22,7 @@ export class AppComponent implements OnDestroy, AfterViewInit {
 
   userProfile: any = null;
   userProfile$: Subscription;
+  defaultImage: string = TodosAppConstants.USER_DEFAULT_IMAGE;
 
   constructor(
     private _themingService: ThemingService, // to load theme
@@ -45,6 +46,10 @@ export class AppComponent implements OnDestroy, AfterViewInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  toggleMenu() {
+    this._menuControllerService.toggleMenu();
   }
 
   ngAfterViewInit() {

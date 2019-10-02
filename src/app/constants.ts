@@ -137,11 +137,6 @@ export class TodosAppConstants {
             icon: 'home'
         },
         {
-            title: 'Account',
-            href: '/account-details',
-            icon: 'person'
-        },
-        {
             title: 'Settings',
             href: '/settings',
             icon: 'settings'

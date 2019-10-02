@@ -110,6 +110,9 @@
 	--ion-font-family: 'Montserrat';
 
   /* Mr.Todos CSS */
+  ion-title {
+    text-align: center;
+  }
   ion-footer {
 		ion-toolbar {
 			ion-title{
@@ -131,7 +134,17 @@
 				border-radius: 16px;
 			}
 		}
-	}
+  }
+  .card-center {
+    ion-card-header {
+      ion-card-title {
+        text-align: center;
+      }
+    }
+    ion-card-content {
+      text-align: center;
+    }
+  }
   .social-icon-container {
 		text-align: center;
 		a>ion-icon {

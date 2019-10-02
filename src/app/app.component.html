@@ -3,15 +3,23 @@
     <ion-menu type="overlay">
       <ion-header translucent>
         <ion-toolbar color="primary">
-          <ion-title>
-              {{ userProfile !== null ? ("Hi, "+ userProfile.name) : "Welcome to Mr.Todos" }}
+          <ion-title style="padding: 0px;">
+            <ion-item color="primary" routerDirection="root" routerLink="/account-details">
+              <ion-avatar slot="start">
+                <ion-img [src]="userProfile !== null && userProfile.profileImage ? userProfile.profileImage : defaultImage">
+                </ion-img>
+              </ion-avatar>
+              <ion-label style="white-space: initial; text-align: center;" text-capitalize>
+                {{ userProfile !== null ? ("welcome " + userProfile.name) : "welcome to Mr. Todos" }}</ion-label>
+              <ion-icon name="arrow-dropright" slot="end" (click)="toggleMenu()"></ion-icon>
+            </ion-item>
           </ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerDirection]="'root'" [routerLink]="[p.href]">
+            <ion-item [routerDirection]="'root'" [routerLink]="[p.href]" lines="none">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{p.title}}

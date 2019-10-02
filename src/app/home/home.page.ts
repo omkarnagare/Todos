@@ -8,6 +8,8 @@ import { ConfirmExitService } from '../services/confirm-exit.service';
 import { PinVerificationService } from '../services/pin-verification.service';
 import { PinUnlockPage } from '../pin-unlock/pin-unlock.page';
 import { PIN_STATE } from '../constants';
+import { Todo } from '../types';
+import { TodosService } from '../services/todos.service';
 const { SplashScreen } = Plugins;
 
 @Component({
@@ -19,13 +21,22 @@ export class HomePage implements OnInit, OnDestroy, AfterViewInit {
 
   backButtonSubscription$: Subscription;
 
+  todos: Todo[] = null;
+  todos$: Subscription;
+
   constructor(
+    private _todosService: TodosService,
     private _platform: Platform,
     private _pinVerification: PinVerificationService,
     private _localNotification: LocalNotificationsService,
     private _confirmExitService: ConfirmExitService,
     private _modalController: ModalController
-  ) { }
+  ) {
+    this.todos$ = this._todosService.getAllTodos().subscribe((data) => {
+      console.log("todos", data);
+      this.todos = data;
+    });
+  }
 
   ngOnInit() {
   }
@@ -68,6 +79,12 @@ export class HomePage implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.backButtonSubscription$.unsubscribe();
     this.backButtonSubscription$ = null;
+
+    if (this.todos$) {
+      this.todos$.unsubscribe();
+      this.todos$ = null;
+      this.todos = null;
+    }
   }
 
   async showLocalNotification() {

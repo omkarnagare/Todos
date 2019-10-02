@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AuthenticationService } from './authentication.service';
 import { TodosAppConstants, UserActivityType } from '../constants';
-import { Activity } from '../types';
+import { Activity, Todo } from '../types';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Utils } from '../utils';
@@ -12,20 +12,15 @@ import { Utils } from '../utils';
 })
 export class ActivitiesService {
 
-  collectionRef: AngularFirestoreCollection;
-
   constructor(
     private _angularFirestore: AngularFirestore,
     private _authenticationService: AuthenticationService,
     private _utils: Utils
   ) {
-    this.collectionRef = this._angularFirestore
-      .collection(TodosAppConstants.ACTIVITIES_COLLECTION)
-      .doc(this._authenticationService.getCurrentUserId())
-      .collection(TodosAppConstants.ACTIVITIES_COLLECTION);
   }
 
-  constructMessage(activityObject: any, activityType: UserActivityType): string {
+  constructMessage(activityObject: Todo, activityType: UserActivityType): string {
+    // TODO: add activity descriptions
     switch (activityType) {
       case UserActivityType.ADD:
         return "ADD_MESSAGE";
@@ -43,25 +38,31 @@ export class ActivitiesService {
     return " on " + eventDate.getDate() + " " + this._utils.getMonthString(eventDate) + ", " + eventDate.getFullYear() + " at " + eventDate.getHours() + ":" + eventDate.getMinutes();
   }
 
-  addActivity(activityObject: any, activityType: UserActivityType): Promise<any> {
+  addActivity(activityObject: Todo, activityType: UserActivityType): Promise<any> {
     const activity: Activity = {
       activityDetails: this.constructMessage(activityObject, activityType),
       activityDate: this._utils.today()
     }
-    return this.collectionRef.add(activity);
+    return this._angularFirestore
+      .collection(TodosAppConstants.ACTIVITIES_COLLECTION)
+      .doc(this._authenticationService.getCurrentUserId())
+      .collection(TodosAppConstants.ACTIVITIES_COLLECTION).add(activity);
   }
 
   getActivities(): Observable<any> {
-    return this.collectionRef.snapshotChanges().pipe(
-      map(actions => {
-        const activities = actions.map(action => ({ activityId: action.payload.doc.id, ...action.payload.doc.data() }));
+    return this._angularFirestore
+      .collection(TodosAppConstants.ACTIVITIES_COLLECTION)
+      .doc(this._authenticationService.getCurrentUserId())
+      .collection(TodosAppConstants.ACTIVITIES_COLLECTION).snapshotChanges().pipe(
+        map(actions => {
+          const activities = actions.map(action => ({ activityId: action.payload.doc.id, ...action.payload.doc.data() }));
 
-        return activities.sort(
-          (activity1, activity2) => {
-            return new Date(activity2["activityDate"]).getTime() - new Date(activity1["activityDate"]).getTime();
-          }
-        );
-      })
-    );
+          return activities.sort(
+            (activity1, activity2) => {
+              return new Date(activity2["activityDate"]).getTime() - new Date(activity1["activityDate"]).getTime();
+            }
+          );
+        })
+      );
   }
 }
