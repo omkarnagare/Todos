@@ -25,7 +25,6 @@ export class AppComponent implements OnDestroy, AfterViewInit {
   defaultImage: string = TodosAppConstants.USER_DEFAULT_IMAGE;
 
   constructor(
-    private _themingService: ThemingService, // to load theme
     private _pushNotifications: PushNotificationsService,
     private _menuControllerService: MenuControllerService,
     private _usersService: UsersManagerService,

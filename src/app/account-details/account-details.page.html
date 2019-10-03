@@ -1,22 +1,11 @@
-<ion-header translucent>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Account
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="user-activity">
-        <ion-icon slot="icon-only" name="filing"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen>
 
-  <div *ngIf="showAccountDetails" @fadein>
+  <ion-menu-button class="left-toolbar-button"></ion-menu-button>
+  <div class="right-toolbar-button" routerLink="user-activity">
+    <ion-icon slot="icon-only" name="filing"></ion-icon>
+  </div>
+
+  <div *ngIf="showAccountDetails" @fadein style="margin-top: 56px">
 
     <ion-card>
       <ion-card-header>
@@ -63,14 +52,14 @@
             </ion-item>
           </div>
 
-          <form [formGroup]="userInfoFormGroup">
+          <form [formGroup]="userInfoFormGroup" class="form">
             <div *ngIf="editingName" @fadein>
               <ion-item>
                 <ion-icon slot="start" name="person"></ion-icon>
                 <ion-icon *ngIf="userInfoFormGroup.valid && userInfoFormGroup.dirty" slot="end" name="checkmark"
                   (click)="updateUserDisplayName()"></ion-icon>
                 <ion-icon slot="end" name="close" (click)="editingName = !editingName"></ion-icon>
-                <ion-input placeholder="Enter Full Name" formControlName="name" type="text"></ion-input>
+                <ion-input placeholder="Enter Full Name" formControlName="name" type="text" text-capitalize></ion-input>
               </ion-item>
 
               <div *ngFor="let validation of validationMessages.name" class="validation-errors">
@@ -105,11 +94,11 @@
         <div *ngIf="userProfile !== null">
           <div>
             <ion-item *ngIf="!userProfile.pin" (click)="confirmPinAction(500)">
-              <ion-icon style="color:black" slot="start" name="apps"></ion-icon>
+              <ion-icon style="color: white" slot="start" name="apps"></ion-icon>
               <ion-label>Set PIN</ion-label>
             </ion-item>
             <ion-item *ngIf="userProfile.pin" (click)="confirmPinAction(501, userProfile.pin)">
-              <ion-icon style="color:black" slot="start" name="apps"></ion-icon>
+              <ion-icon style="color: white" slot="start" name="apps"></ion-icon>
               <ion-label>Change PIN</ion-label>
             </ion-item>
             <ion-item *ngIf="userProfile.pin" (click)="confirmPinAction(503, userProfile.pin)">
@@ -121,8 +110,13 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-button *ngIf="userProfile !== null" (click)="confirmLogOut()" class="expand-button"
+    <!-- <ion-button *ngIf="userProfile !== null" (click)="confirmLogOut()" class="expand-button"
       style="padding: 0px 8px 0px 8px" color="danger"> Log Out
-    </ion-button>
+    </ion-button> -->
+    <div class="button-danger" (click)="confirmLogOut()">
+      <ion-label text-uppercase>
+        Log Out
+      </ion-label>
+    </div>
   </div>
 </ion-content>

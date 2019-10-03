@@ -1,100 +1,100 @@
-<ion-header translucent>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      Contact Us
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen>
 
-  <div *ngIf="isMobilePlatform === null">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-card-title>
-        <ion-card-subtitle>
-          <ion-skeleton-text animated></ion-skeleton-text>
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-skeleton-text animated></ion-skeleton-text>
-        <ion-skeleton-text animated></ion-skeleton-text>
-        <ion-skeleton-text animated></ion-skeleton-text>
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-card-content>
-    </ion-card>
-  </div>
+  <ion-back-button class="left-toolbar-button"></ion-back-button>
 
-  <div *ngIf="isMobilePlatform !== null && isMobilePlatform === true" @fadein>
-    <form [formGroup]="contactUsFormGroup">
+  <div style="margin-top: 36px;">
+    <div *ngIf="isMobilePlatform === null">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Facing issue with Mr. Todos??</ion-card-title>
+          <ion-card-title>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-card-title>
           <ion-card-subtitle>
-            <p>Don't worry, We are here to help you.</p>
-            <p>Fill in the following details.</p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+            <ion-skeleton-text animated></ion-skeleton-text>
           </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <div>
-            <ion-item>
-              <ion-input placeholder="What happened" formControlName="subject" type="text"></ion-input>
-            </ion-item>
-
-            <div *ngFor="let validation of validationMessages.subject" class="validation-errors">
-              <ion-item class="error-message" *ngIf="isError('subject', validation.type)">
-                <ion-icon name="alert"></ion-icon>
-                <ion-label>{{ validation.message }}</ion-label>
-              </ion-item>
-            </div>
-          </div>
-          <div>
-            <ion-item>
-              <ion-textarea placeholder="Describe your issue here" formControlName="body" type="text"></ion-textarea>
-            </ion-item>
-
-            <div *ngFor="let validation of validationMessages.body" class="validation-errors">
-              <ion-item class="error-message" *ngIf="isError('body', validation.type)">
-                <ion-icon name="alert"></ion-icon>
-                <ion-label>{{ validation.message }}</ion-label>
-              </ion-item>
-            </div>
-          </div>
-
-
-          <ion-button [disabled]="!contactUsFormGroup.valid" (click)="showAlertForSendingEmail()" class="expand-button">
-            Send</ion-button>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
         </ion-card-content>
       </ion-card>
-    </form>
-  </div>
+    </div>
 
-  <div *ngIf="isMobilePlatform !== null && isMobilePlatform === false" @fadein>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Facing issue with Mr.Todos??</ion-card-title>
-        <ion-card-subtitle>
-          <p>Don't worry, We are here to help you.</p>
-          <p>Use the following information to write to us.</p>
-          <p> Support Email: <br> <b>{{ supportEmail }}</b>
-            <ion-icon (click)="copyToClipboard( supportEmail, 'Email' )"
-              style="color:rgb(23, 26, 199); font-size: 1.5em" name="clipboard">
-            </ion-icon>
-          </p>
-          <p> Device Details: <br> <b>{{ deviceDetails }}</b>
-            <ion-icon (click)="copyToClipboard( deviceDetails, 'Device Details' )"
-              style="color:rgb(23, 26, 199); font-size: 1.5em" name="clipboard">
-            </ion-icon>
-          </p>
-        </ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
+    <div *ngIf="isMobilePlatform !== null && isMobilePlatform === true" @fadein>
+      <form [formGroup]="contactUsFormGroup" class="form">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Facing issue with Mr. Todos??</ion-card-title>
+            <ion-card-subtitle>
+              <p>Don't worry, We are here to help you.</p>
+              <p>Fill in the following details.</p>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div>
+              <ion-item>
+                <ion-input placeholder="What happened" formControlName="subject" type="text"></ion-input>
+              </ion-item>
+
+              <div *ngFor="let validation of validationMessages.subject" class="validation-errors">
+                <ion-item class="error-message" *ngIf="isError('subject', validation.type)">
+                  <ion-icon name="alert"></ion-icon>
+                  <ion-label>{{ validation.message }}</ion-label>
+                </ion-item>
+              </div>
+            </div>
+            <div>
+              <ion-item>
+                <ion-textarea placeholder="Describe your issue here" formControlName="body" type="text"></ion-textarea>
+              </ion-item>
+
+              <div *ngFor="let validation of validationMessages.body" class="validation-errors">
+                <ion-item class="error-message" *ngIf="isError('body', validation.type)">
+                  <ion-icon name="alert"></ion-icon>
+                  <ion-label>{{ validation.message }}</ion-label>
+                </ion-item>
+              </div>
+            </div>
+
+
+            <!-- <ion-button [disabled]="!contactUsFormGroup.valid" (click)="showAlertForSendingEmail()"
+              class="expand-button">
+              Send</ion-button> -->
+
+            <div *ngIf="contactUsFormGroup.valid" class="button-normal" (click)="showAlertForSendingEmail()">
+              <ion-label text-uppercase>
+                Send
+              </ion-label>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </div>
+
+    <div *ngIf="isMobilePlatform !== null && isMobilePlatform === false" @fadein>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Facing issue with Mr.Todos??</ion-card-title>
+          <ion-card-subtitle>
+            <p>Don't worry, We are here to help you.</p>
+            <p>Use the following information to write to us.</p>
+            <p> Support Email: <br> <b>{{ supportEmail }}</b>
+              <ion-icon (click)="copyToClipboard( supportEmail, 'Email' )"
+                style="color:rgb(23, 26, 199); font-size: 1.5em" name="clipboard">
+              </ion-icon>
+            </p>
+            <p> Device Details: <br> <b>{{ deviceDetails }}</b>
+              <ion-icon (click)="copyToClipboard( deviceDetails, 'Device Details' )"
+                style="color:rgb(23, 26, 199); font-size: 1.5em" name="clipboard">
+              </ion-icon>
+            </p>
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+    </div>
   </div>
 
 </ion-content>

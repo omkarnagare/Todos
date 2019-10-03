@@ -1,47 +1,49 @@
-<ion-header translucent>
-  <ion-toolbar color="primary" [scrollVanish]="body">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Mr.Todos
-    </ion-title>
-    <ion-buttons slot="end">
-      <!-- Todo: add page for adding todo -->
-      <ion-button routerLink="add-todo">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-content fullscreen>
 
-<ion-content #body scrollEvents="true">
+  <ion-menu-button class="left-toolbar-button"></ion-menu-button>
+  <div class="right-toolbar-button" routerLink="add-todo">
+    <ion-icon slot="icon-only" name="add"></ion-icon>
+  </div>
 
-  <ion-list *ngIf="todos === null">
-    <ion-item *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
-      <ion-skeleton-text animated></ion-skeleton-text>
-      <ion-skeleton-text animated></ion-skeleton-text>
-      <ion-skeleton-text animated></ion-skeleton-text>
-    </ion-item>
-  </ion-list>
+  <div style="margin-top: 56px;">
 
-  <!-- TODO: add router link -->
-  <ion-card class="card-center" routerLink="" *ngIf="todos !== null && todos.length === 0">
-    <ion-card-header>
-      <ion-card-title>No Todos logged !!</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Click here to add task</p>
-    </ion-card-content>
-  </ion-card>
+    <ion-list *ngIf="todos === null">
+      <ion-item *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8]">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+            <p>
+              <p>
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
-  <ion-list *ngIf="todos !== null">
-    <ion-item *ngFor="let todo of todos">
-      <ion-checkbox slot="start" [checked]="todo.isPending"></ion-checkbox>
-      <ion-label>{{ todo.todoDescription }}</ion-label>
-    </ion-item>
-  </ion-list>
+    <ion-card class="card-center" routerLink="add-todo" *ngIf="todos !== null && todos.length === 0">
+      <ion-card-header>
+        <ion-card-title>No Todos logged !!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Click here to add task</p>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-button (click)="showLocalNotification()" class="expand-button" color="secondary"> Show Local Notification
-  </ion-button>
+    <ion-list *ngIf="todos !== null">
+      <ion-item *ngFor="let todo of todos">
+        <ion-checkbox slot="start" [checked]="todo.isPending"></ion-checkbox>
+        <ion-label>{{ todo.todoDescription }}</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- <ion-button (click)="showLocalNotification()" class="expand-button" color="secondary"> Show Local Notification
+    </ion-button> -->
+
+  </div>
 </ion-content>

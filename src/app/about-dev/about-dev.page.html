@@ -1,15 +1,6 @@
-<ion-header translucent>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      About Developer
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen>
+
+  <ion-back-button class="left-toolbar-button"></ion-back-button>
 
   <div @fadein>
     <ion-card *ngIf="showAboutDevPage">
@@ -129,7 +120,7 @@
             <ion-icon style="color:#0e76a8" name="logo-linkedin"></ion-icon>
           </a>
           <a href="https://github.com/omkarnagare" target="_blank">
-            <ion-icon style="color:black" name="logo-github"></ion-icon>
+            <ion-icon style="color: white" name="logo-github"></ion-icon>
           </a>
           <a href="https://www.facebook.com/omkar.nagare" target="_blank">
             <ion-icon style="color:#3b5998" name="logo-facebook"></ion-icon>

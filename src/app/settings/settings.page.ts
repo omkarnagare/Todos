@@ -98,7 +98,7 @@ export class SettingsPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getAppURL(): string {
-    // TODO: change URLS
+    // TODO-: change URLS
     if (this._deviceInfoService.isMobilePlatform()) {
       if (this._deviceInfoService.isAndroid()) {
         return "https://play.google.com/store/apps/details?id=com.nagare.balkrishna.omkar.todos";

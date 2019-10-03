@@ -1,14 +1,5 @@
-<ion-header translucent>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>LogIn</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen>
-  <form [formGroup]="userInfoFormGroup">
+  <form [formGroup]="userInfoFormGroup" class="form">
     <ion-card>
       <ion-card-content>
         <div *ngIf="userState && userState === 301">
@@ -72,20 +63,35 @@
         <ion-grid fixed>
           <ion-row *ngIf="userState && userState === 300">
             <ion-col size="12">
-              <ion-button @slidelefttitle (click)="logInWithEmailAndPassword()" class="expand-button">
-                Log In</ion-button>
+              <!-- <ion-button @slidelefttitle (click)="logInWithEmailAndPassword()" class="expand-button">
+                Log In</ion-button> -->
+              <div @slidelefttitle class="button-normal" (click)="logInWithEmailAndPassword()">
+                <ion-label text-uppercase>
+                  Log In
+                </ion-label>
+              </div>
             </ion-col>
           </ion-row>
           <ion-row *ngIf="!userState || userState === 301">
             <ion-col size="12">
-              <ion-button @sliderighttitle (click)="signUp()" class="expand-button">
-                Sign Up</ion-button>
+              <!-- <ion-button @sliderighttitle (click)="signUp()" class="expand-button">
+                Sign Up</ion-button> -->
+              <div @sliderighttitle class="button-normal" (click)="signUp()">
+                <ion-label text-uppercase>
+                  Sign Up
+                </ion-label>
+              </div>
             </ion-col>
           </ion-row>
           <ion-row *ngIf="userState && userState === 302">
             <ion-col size="12">
-              <ion-button @slidelefttitle (click)="forgotPassword()" class="expand-button">
-                Reset Password</ion-button>
+              <!-- <ion-button @slidelefttitle (click)="forgotPassword()" class="expand-button">
+                Reset Password</ion-button> -->
+              <div @slidelefttitle class="button-normal" (click)="forgotPassword()">
+                <ion-label text-uppercase>
+                  Reset Password
+                </ion-label>
+              </div>
             </ion-col>
           </ion-row>
           <ion-row>

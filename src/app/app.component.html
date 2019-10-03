@@ -1,34 +1,40 @@
 <ion-app>
-  <ion-split-pane>
+  <!-- <ion-split-pane> -->
     <ion-menu type="overlay">
-      <ion-header translucent>
-        <ion-toolbar color="primary">
-          <ion-title style="padding: 0px;">
-            <ion-item color="primary" routerDirection="root" routerLink="/account-details">
-              <ion-avatar slot="start">
-                <ion-img [src]="userProfile !== null && userProfile.profileImage ? userProfile.profileImage : defaultImage">
-                </ion-img>
-              </ion-avatar>
-              <ion-label style="white-space: initial; text-align: center;" text-capitalize>
-                {{ userProfile !== null ? ("welcome " + userProfile.name) : "welcome to Mr. Todos" }}</ion-label>
-              <ion-icon name="arrow-dropright" slot="end" (click)="toggleMenu()"></ion-icon>
-            </ion-item>
-          </ion-title>
-        </ion-toolbar>
-      </ion-header>
       <ion-content>
-        <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerDirection]="'root'" [routerLink]="[p.href]" lines="none">
-              <ion-icon slot="start" [name]="p.icon"></ion-icon>
-              <ion-label>
-                {{p.title}}
-              </ion-label>
+
+        <div style="position: fixed; top: 2%; right: 4%; z-index: 5;" (click)="toggleMenu()">
+          <ion-icon slot="icon-only" name="close" style="font-size: 28px;"></ion-icon>
+        </div>
+
+        <ion-card class="card-center" no-padding no-margin style="border-radius: 0px;">
+          <div style="position: relative">
+            <ion-img class="item-shadow"
+              [src]="userProfile !== null && userProfile.profileImage ? userProfile.profileImage : defaultImage">
+            </ion-img>
+            <ion-item style="position: absolute; bottom: 0%; z-index: 5; width: 100%" class="item-shadow"
+              routerDirection="root" routerLink="/account-details" (click)="toggleMenu()">
+              <ion-label style="white-space: initial; text-align: center;" text-capitalize>
+                {{ userProfile !== null ? ("Welcome " + userProfile.name) : "Welcome to Mr. Todos" }}</ion-label>
+              <ion-icon name="arrow-dropright" slot="end"></ion-icon>
             </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
+          </div>
+          <ion-card-content no-padding no-margin>
+            <ion-list>
+              <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+                <ion-item [routerDirection]="'root'" [routerLink]="[p.href]" lines="none">
+                  <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                  <ion-label>
+                    {{p.title}}
+                  </ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
       </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
-  </ion-split-pane>
+  <!-- </ion-split-pane> -->
 </ion-app>

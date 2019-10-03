@@ -1,0 +1,26 @@
+<ion-content fullscreen>
+
+  <ion-menu-button class="left-toolbar-button"></ion-menu-button>
+  <div class="right-toolbar-button" routerLink="/home">
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </div>
+
+  <div style="margin-top: 56px">
+
+
+    <!-- <ion-button (click)="addTodo()" class="expand-button" color="primary"> Add
+    </ion-button>
+    <ion-button routerLink="/home" class="expand-button" color="danger"> cancel
+    </ion-button> -->
+    <div class="button-normal" (click)="addTodo()" >
+      <ion-label text-uppercase>
+        Add
+      </ion-label>
+    </div>
+    <div class="button-danger" routerLink="/home">
+      <ion-label text-uppercase>
+        cancel
+      </ion-label>
+    </div>
+  </div>
+</ion-content>

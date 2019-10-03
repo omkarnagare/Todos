@@ -12,8 +12,17 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-    canActivate: [CanEnterHomePageGuard]
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+        canActivate: [CanEnterHomePageGuard],
+      },
+      {
+        path: 'add-todo',
+        loadChildren: () => import('./add-todo/add-todo.module').then(m => m.AddTodoPageModule)
+      }
+    ]
   },
   {
     path: 'log-in',

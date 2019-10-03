@@ -20,7 +20,7 @@ export class ActivitiesService {
   }
 
   constructMessage(activityObject: Todo, activityType: UserActivityType): string {
-    // TODO: add activity descriptions
+    // TODO-: add activity descriptions
     switch (activityType) {
       case UserActivityType.ADD:
         return "ADD_MESSAGE";
