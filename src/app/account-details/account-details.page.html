@@ -113,7 +113,7 @@
     <!-- <ion-button *ngIf="userProfile !== null" (click)="confirmLogOut()" class="expand-button"
       style="padding: 0px 8px 0px 8px" color="danger"> Log Out
     </ion-button> -->
-    <div class="button-danger" (click)="confirmLogOut()">
+    <div class="button-danger" (click)="confirmLogOut()" *ngIf="userProfile !== null">
       <ion-label text-uppercase>
         Log Out
       </ion-label>
