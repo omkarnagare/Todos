@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CanEnterLogInPageGuard } from './guards/can-enter-log-in-page.guard';
-import { CanEnterHomePageGuard } from './guards/can-enter-home-page.guard';
-import { CanEnterAccountDetailsPageGuard } from './guards/can-enter-account-details-page.guard';
+import { CanEnterAppGuard } from './guards/can-enter-app.guard';
 
 const routes: Routes = [
   {
@@ -16,11 +15,27 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-        canActivate: [CanEnterHomePageGuard],
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'add-todo',
-        loadChildren: () => import('./add-todo/add-todo.module').then(m => m.AddTodoPageModule)
+        loadChildren: () => import('./add-todo/add-todo.module').then(m => m.AddTodoPageModule),
+        canActivate: [CanEnterAppGuard]
+      },
+      {
+        path: 'details/:todoId',
+        loadChildren: () => import('./todo-details/todo-details.module').then(m => m.TodoDetailsPageModule),
+        canActivate: [CanEnterAppGuard]
+      }
+    ]
+  },
+  {
+    path: 'history',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./todo-history/todo-history.module').then(m => m.TodoHistoryPageModule),
+        canActivate: [CanEnterAppGuard]
       }
     ]
   },
@@ -35,12 +50,14 @@ const routes: Routes = [
       {
         path: 'privacy-policy',
         loadChildren: () =>
-          import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule)
+          import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule),
+        canActivate: [CanEnterLogInPageGuard]
       },
       {
         path: 'terms-and-conditions',
         loadChildren: () =>
-          import('./terms-and-conditions/terms-and-conditions.module').then(m => m.TermsAndConditionsPageModule)
+          import('./terms-and-conditions/terms-and-conditions.module').then(m => m.TermsAndConditionsPageModule),
+        canActivate: [CanEnterLogInPageGuard]
       }
     ]
   },
@@ -50,11 +67,7 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./account-details/account-details.module').then(m => m.AccountDetailsPageModule),
-        canActivate: [CanEnterAccountDetailsPageGuard]
-      },
-      {
-        path: 'user-activity',
-        loadChildren: () => import('./user-activity/user-activity.module').then(m => m.UserActivityPageModule)
+        canActivate: [CanEnterAppGuard]
       }
     ]
   },
@@ -63,35 +76,42 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule)
+        loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule),
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'theme-controller',
-        loadChildren: () => import('./theme-controller/theme-controller.module').then(m => m.ThemeControllerPageModule)
+        loadChildren: () => import('./theme-controller/theme-controller.module').then(m => m.ThemeControllerPageModule),
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'about-dev',
-        loadChildren: () => import('./about-dev/about-dev.module').then(m => m.AboutDevPageModule)
+        loadChildren: () => import('./about-dev/about-dev.module').then(m => m.AboutDevPageModule),
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'privacy-policy',
         loadChildren: () =>
-          import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule)
+          import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule),
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'terms-and-conditions',
         loadChildren: () =>
-          import('./terms-and-conditions/terms-and-conditions.module').then(m => m.TermsAndConditionsPageModule)
+          import('./terms-and-conditions/terms-and-conditions.module').then(m => m.TermsAndConditionsPageModule),
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'faqs',
         loadChildren: () =>
-          import('./faqs/faqs.module').then(m => m.FaqsPageModule)
+          import('./faqs/faqs.module').then(m => m.FaqsPageModule),
+        canActivate: [CanEnterAppGuard]
       },
       {
         path: 'contact-us',
         loadChildren: () =>
-          import('./contact-us/contact-us.module').then(m => m.ContactUsPageModule)
+          import('./contact-us/contact-us.module').then(m => m.ContactUsPageModule),
+        canActivate: [CanEnterAppGuard]
       }
     ]
   }

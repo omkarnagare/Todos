@@ -42,4 +42,4 @@ import { alertEnterAnimation, toastEnterAnimation, alertLeaveAnimation, toastLea
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

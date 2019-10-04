@@ -121,7 +121,7 @@
     display: inline;
     position: fixed; 
     top: 1.5%; 
-    right: 2%; 
+    right: 2.5%; 
     z-index: 5;
     ion-icon {
       font-size: 24px;
@@ -145,6 +145,9 @@
   }
   ion-list {
     background: transparent;
+    ion-list-header {
+      --color: white;
+    }
   }
   ion-item {
     --background: transparent;
@@ -155,14 +158,21 @@
   .button-danger {
     text-align: center; 
     padding: 8px 0px 8px 0px; 
-    margin: 4px; 
+    margin: 8px; 
     border-radius: 8px;
     border: 4px solid var(--ion-color-danger); 
+  }
+  .button-success {
+    text-align: center; 
+    padding: 8px 0px 8px 0px; 
+    margin: 8px; 
+    border-radius: 8px;
+    border: 4px solid var(--ion-color-success); 
   }
   .button-normal {
     text-align: center; 
     padding: 8px 0px 8px 0px; 
-    margin: 4px; 
+    margin: 8px; 
     border-radius: 8px;
     border: 4px solid var(--ion-color-primary); 
   }
@@ -195,6 +205,48 @@
   ion-label {
     background: transparent;
     color: white;
+  }
+  .input-label {
+		font-size: 12px;
+		margin: 0px 0px 0px 16px;
+  }
+  .input-item {
+    border: 4px solid var(--ion-color-primary);
+    border-radius: 8px;
+    --border-color: transparent !important;
+  }
+  .todo-item {
+    margin: 8px;
+    text-align: center;
+    border: 2px solid var(--ion-color-primary);
+    border-radius: 8px;
+  }
+  .high {
+      border: 2px solid red !important;
+      .left {
+        border-left: 2px solid red !important;
+      }
+      .right{
+        border-right: 2px solid red !important;
+      }
+  }
+  .medium {
+      border: 2px solid orange !important;
+      .left {
+        border-left: 2px solid orange !important;
+      }
+      .right{
+        border-right: 2px solid orange !important;
+      }
+  }
+  .low {
+    border: 2px solid  var(--ion-color-primary) !important;
+      .left {
+        border-left: 2px solid  var(--ion-color-primary) !important;
+      }
+      .right{
+        border-right: 2px solid  var(--ion-color-primary) !important;
+      }
   }
   ion-icon {
     color: white;

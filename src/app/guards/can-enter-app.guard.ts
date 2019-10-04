@@ -7,7 +7,7 @@ import { AuthenticationService } from '../services/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CanEnterAccountDetailsPageGuard implements CanActivate {
+export class CanEnterAppGuard implements CanActivate {
   constructor(
     private _authenticationService: AuthenticationService,
     private _router: Router

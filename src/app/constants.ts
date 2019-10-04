@@ -56,6 +56,12 @@ export class TodosAppConstants {
     public static PIN_KEY = "pin";
     public static PIN_VERIFIED_KEY = "verified";
 
+    //local notification
+    public static TODO_LOCAL_NOTIFICATION_ID = 1;
+
+    //push notification
+    public static TODO_PUSH_NOTIFICATION_ID = 2;
+
     //general constants
     public static INVALID_FIELDS_MESSAGE = "Please fill all the fields with appropriate values.";
     public static PASSWORD_MISSMATCH_MESSAGE = "Passwords did not match. Please try again.";
@@ -135,6 +141,11 @@ export class TodosAppConstants {
             title: 'Home',
             href: '/home',
             icon: 'home'
+        },
+        {
+            title: 'History',
+            href: '/history',
+            icon: 'paper'
         },
         {
             title: 'Settings',

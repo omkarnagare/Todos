@@ -1,26 +1,63 @@
 <ion-content fullscreen>
 
-  <ion-menu-button class="left-toolbar-button"></ion-menu-button>
+  <ion-back-button class="left-toolbar-button"></ion-back-button>
   <div class="right-toolbar-button" routerLink="/home">
     <ion-icon slot="icon-only" name="close"></ion-icon>
   </div>
 
-  <div style="margin-top: 56px">
+  <div style="margin-top: 56px;" @fadein>
 
+    <form [formGroup]="todoDetailsFormGroup">
 
-    <!-- <ion-button (click)="addTodo()" class="expand-button" color="primary"> Add
-    </ion-button>
-    <ion-button routerLink="/home" class="expand-button" color="danger"> cancel
-    </ion-button> -->
-    <div class="button-normal" (click)="addTodo()" >
-      <ion-label text-uppercase>
-        Add
-      </ion-label>
-    </div>
-    <div class="button-danger" routerLink="/home">
-      <ion-label text-uppercase>
-        cancel
-      </ion-label>
-    </div>
+      <div style="margin: 0px 8px 0px 8px;">
+        <ion-label class="input-label">Prioritize your Task*</ion-label>
+        <ion-item lines="none">
+          <ion-segment mode="ios" (ionChange)="onPriorityChange($event)" color="primary">
+            <ion-segment-button value="high" mode="ios" checked>
+              <ion-label>High</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="medium" mode="ios">
+              <ion-label>Medium</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="low" mode="ios">
+              <ion-label>Low</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-item>
+      </div>
+
+      <div style="margin: 0px 8px 0px 8px;">
+        <ion-label class="input-label">Task at hand*</ion-label>
+        <ion-item class="input-item">
+          <ion-input formControlName="todoTitle" type="text"></ion-input>
+        </ion-item>
+        <div *ngFor="let validation of validationMessages.todoTitle" class="validation-errors">
+          <ion-item class="error-message" *ngIf="isError('todoTitle', validation.type)">
+            <ion-icon name="alert"></ion-icon>
+            <ion-label>{{ validation.message }}</ion-label>
+          </ion-item>
+        </div>
+      </div>
+
+      <div style="margin: 0px 8px 0px 8px;">
+        <ion-label class="input-label">How do you want to perform it?</ion-label>
+        <ion-item class="input-item">
+          <ion-textarea rows="10" formControlName="todoDescription">
+          </ion-textarea>
+        </ion-item>
+      </div>
+
+      <div class="button-success" (click)="addTodo()" *ngIf="todoDetailsFormGroup.dirty && todoDetailsFormGroup.valid">
+        <ion-label text-uppercase>
+          Add
+        </ion-label>
+      </div>
+      <div class="button-danger" routerLink="/home">
+        <ion-label text-uppercase>
+          cancel
+        </ion-label>
+      </div>
+
+    </form>
   </div>
 </ion-content>

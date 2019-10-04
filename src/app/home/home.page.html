@@ -1,12 +1,29 @@
 <ion-content fullscreen>
 
-  <ion-menu-button class="left-toolbar-button"></ion-menu-button>
-  <div class="right-toolbar-button" routerLink="add-todo">
-    <ion-icon slot="icon-only" name="add"></ion-icon>
+  <div style="height: 82px; width: 100%;  position: fixed; top: 0%">
+    <ion-menu-button class="left-toolbar-button"></ion-menu-button>
+    <div class="right-toolbar-button" routerLink="add-todo">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </div>
+    <ion-searchbar slot="fixed"
+      style="margin-top: 4px; width: 80%;  height: 40px;  position: absolute;  left: 10%;  right: 10%;"
+      (ionChange)="onSearchInput($event)" debounce="500"></ion-searchbar>
+    <ion-item slot="fixed" @fadein lines="none" style="margin-top: 40px;">
+      <ion-segment (ionChange)="onTaskStatusChange($event)" mode="ios" color="primary">
+        <ion-segment-button mode="ios" value="pending" checked>
+          <ion-label>Pending</ion-label>
+        </ion-segment-button>
+        <ion-segment-button mode="ios" value="completed">
+          <ion-label>Completed</ion-label>
+        </ion-segment-button>
+        <ion-segment-button mode="ios" value="all">
+          <ion-label>All</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-item>
   </div>
 
-  <div style="margin-top: 56px;">
-
+  <div style="position: absolute; top: 82px;bottom: 0; left: 0; right: 0; overflow: auto;">
     <ion-list *ngIf="todos === null">
       <ion-item *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8]">
         <ion-thumbnail slot="start">
@@ -35,15 +52,26 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-list *ngIf="todos !== null">
-      <ion-item *ngFor="let todo of todos">
-        <ion-checkbox slot="start" [checked]="todo.isPending"></ion-checkbox>
-        <ion-label>{{ todo.todoDescription }}</ion-label>
-      </ion-item>
-    </ion-list>
-
-    <!-- <ion-button (click)="showLocalNotification()" class="expand-button" color="secondary"> Show Local Notification
-    </ion-button> -->
-
+    <ion-grid fixed *ngIf="todos !== null">
+      <ion-row *ngFor="let todo of todos" [class]="getClass(todo)">
+        <ion-col *ngIf="todo.isPending" size="2" class="right">
+          <ion-icon style="font-size: 24px;" name="checkmark" color="success" (click)="confirmCompletion(todo)">
+          </ion-icon>
+        </ion-col>
+        <ion-col [routerLink]="['details', todo.todoId]" [size]="todo.isPending ? 6: 10"
+          style="text-align: center; margin: 4px auto; position: relative;">
+          <div *ngIf="!todo.isPending"
+          style="width: 96%; height: 2px; border-bottom: 2px solid var(--ion-color-danger); position: absolute; top: 40%;">
+        </div>
+          <ion-label style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; width:100%;">{{ todo.todoTitle }}</ion-label>
+        </ion-col>
+        <ion-col *ngIf="todo.isPending" size="2" class="left">
+          <ion-icon style="font-size: 24px;" name="refresh" color="success" (click)="cofirmRecreation(todo)"></ion-icon>
+        </ion-col>
+        <ion-col size="2" class="left">
+          <ion-icon style="font-size: 24px;" name="trash" color="danger" (click)="cofirmDeletion(todo)"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

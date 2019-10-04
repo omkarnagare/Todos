@@ -1,27 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddTodoPage } from './add-todo.page';
+import { TodoHistoryPage } from './todo-history.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: AddTodoPage
+    component: TodoHistoryPage
   }
 ];
 
 @NgModule({
   imports: [
-    ReactiveFormsModule,
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AddTodoPage]
+  declarations: [TodoHistoryPage]
 })
-export class AddTodoPageModule {}
+export class TodoHistoryPageModule {}

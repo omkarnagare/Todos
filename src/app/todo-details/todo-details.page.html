@@ -1,0 +1,132 @@
+<ion-content fullscreen>
+  <ion-back-button class="left-toolbar-button"></ion-back-button>
+  <div class="right-toolbar-button">
+    <ion-icon @fadein *ngIf="editing && todoDetailsFormGroup.valid && todoDetailsFormGroup.dirty"
+      (click)="confirmUpdateDetails()" slot="icon-only" name="md-checkmark" style="padding: 0px 8px 0px 0px;"></ion-icon>
+    <ion-icon @fadein *ngIf="editing" (click)="confirmCancelEditing()" slot="icon-only" name="md-close"></ion-icon>
+    <ion-icon @fadein *ngIf="!editing && todoObject && todoObject.isPending" (click)="editing = !editing;"
+      slot="icon-only" name="ios-create"></ion-icon>
+  </div>
+
+  <div style="margin-top: 46px;">
+    <div *ngIf="todoObject === null">
+      <ion-card>
+        <ion-skeleton-text style="height: 150px;" animated></ion-skeleton-text>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+
+    <div *ngIf="todoObject !== null">
+      <ion-card style="background: url(../assets/images/todo-card-background.jpg)">
+        <!-- <img style="height: 150px;" src="../assets/images/todo-card-background.jpg"/> -->
+        <ion-card-header *ngIf="!editing" [style.opacity]="todoObject.isPending ? 1 : 0.5">
+          <ion-label *ngIf="todoObject.todoTitle">Task:</ion-label>
+          <ion-card-title *ngIf="todoObject.todoTitle">{{ todoObject.todoTitle }}</ion-card-title>
+          <p></p>
+          <ion-label *ngIf="todoObject.todoDescription">Description:</ion-label>
+          <ion-card-subtitle *ngIf="todoObject.todoDescription">{{ todoObject.todoDescription }}
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content [style.opacity]="todoObject.isPending ? 1 : 0.5">
+
+          <div *ngIf="!editing">
+            <div *ngIf="todoObject.completionDate && !todoObject.isPending">
+              <ion-item no-padding no-margin lines="none">
+                <ion-icon slot="start" style="color: var(--ion-color-success); margin-left: 8px; margin-right: 8px;"
+                  name="done-all">
+                </ion-icon>
+                <ion-segment mode="ios" color="success" disabled style="opacity: 1;">
+                  <ion-segment-button mode="ios" checked>
+                    <ion-label>Completed</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button mode="ios">
+                    <ion-label>{{ todoObject.completionDate  | date: 'dd-MMM-yyyy HH:mm' }}</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+              </ion-item>
+            </div>
+            <div *ngIf="todoObject.priority">
+              <ion-item no-padding no-margin lines="none">
+                <ion-icon slot="start" style="margin-left: 8px; margin-right: 8px;" name="medical">
+                </ion-icon>
+                <ion-segment mode="ios" disabled style="opacity: 1;">
+                  <ion-segment-button mode="ios" checked>
+                    <ion-label>Priority</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button mode="ios">
+                    <ion-label text-uppercase>{{ todoObject.priority }}</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+              </ion-item>
+            </div>
+            <div *ngIf="todoObject.entryDate">
+              <ion-item no-padding no-margin lines="none">
+                <ion-icon slot="start" style="margin-left: 8px; margin-right: 8px;" name="time">
+                </ion-icon>
+                <ion-segment mode="ios" disabled style="opacity: 1;">
+                  <ion-segment-button mode="ios" checked>
+                    <ion-label>Created</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button mode="ios">
+                    <ion-label>{{ todoObject.entryDate  | date: 'dd-MMM-yyyy HH:mm' }}</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+              </ion-item>
+            </div>
+          </div>
+
+          <form [formGroup]="todoDetailsFormGroup">
+            <div *ngIf="editing" @fadein>
+              <div>
+                <ion-label class="input-label">Priority*</ion-label>
+                <ion-item lines="none">
+                  <ion-segment [value]="priority" mode="ios" (ionChange)="onPriorityChange($event)" color="primary">
+                    <ion-segment-button value="high" mode="ios">
+                      <ion-label>High</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="medium" mode="ios">
+                      <ion-label>Medium</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="low" mode="ios">
+                      <ion-label>Low</ion-label>
+                    </ion-segment-button>
+                  </ion-segment>
+                </ion-item>
+              </div>
+              <div>
+                <ion-label class="input-label">Task (short) Title*</ion-label>
+                <ion-item class="input-item">
+                  <ion-input formControlName="todoTitle" type="text"></ion-input>
+                </ion-item>
+                <div *ngFor="let validation of validationMessages.todoTitle" class="validation-errors">
+                  <ion-item class="error-message" *ngIf="isError('todoTitle', validation.type)">
+                    <ion-icon name="alert"></ion-icon>
+                    <ion-label>{{ validation.message }}</ion-label>
+                  </ion-item>
+                </div>
+              </div>
+              <div>
+                <ion-label class="input-label">How do you want to perform it?</ion-label>
+                <ion-item class="input-item">
+                  <ion-textarea rows="10" formControlName="todoDescription">
+                  </ion-textarea>
+                </ion-item>
+              </div>
+            </div>
+          </form>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+</ion-content>

@@ -4,7 +4,6 @@ import { AuthenticationService } from './authentication.service';
 import { Todo } from '../types';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ActivitiesService } from './activities.service';
 import { TodosAppConstants, UserActivityType } from '../constants';
 
 @Injectable({
@@ -16,8 +15,7 @@ export class TodosService {
 
   constructor(
     private _angularFirestore: AngularFirestore,
-    private _authenticationService: AuthenticationService,
-    private _activitiesService: ActivitiesService,
+    private _authenticationService: AuthenticationService
   ) { 
     this.collectionRef = this._angularFirestore
       .collection(TodosAppConstants.TODOS_COLLECTION)
@@ -28,20 +26,21 @@ export class TodosService {
   addTodo(todo: Todo): Promise<any> {
     return this.collectionRef
       .add({
+        todoTitle: todo.todoTitle,
         todoDescription: todo.todoDescription,
-        tags: todo.tags,
-        entryDate: todo.entryDate,
-        targetDate: todo.targetDate,
-
+        priority: todo.priority,
+        entryDate: new Date().toISOString(),
         isPending: true
       }).finally(() => {
-        this._activitiesService.addActivity(todo, UserActivityType.ADD);
       });
   }
 
   getTodo(todoId: string): Observable<any> {
     return this.collectionRef
-      .doc(todoId).valueChanges();
+      .doc(todoId).valueChanges().pipe(map((data) => {
+        data["todoId"] = todoId;
+        return data;
+      }));
   }
 
   getAllTodos(): Observable<any> {
@@ -58,15 +57,14 @@ export class TodosService {
   updateTodo(todo: Todo): Promise<void> {
     return this.collectionRef
       .doc(todo.todoId).update(todo).finally(() => {
-        this._activitiesService.addActivity(todo, UserActivityType.UPDATE);
       });
   }
 
   completeTodo(todo: Todo): Promise<void> {
     todo.isPending = false;
+    todo.completionDate = new Date().toISOString();
     return this.collectionRef
       .doc(todo.todoId).update(todo).finally(() => {
-        this._activitiesService.addActivity(todo, UserActivityType.COMPLETE);
       });
   }
 
@@ -74,14 +72,12 @@ export class TodosService {
     todo.isPending = true;
     return this.collectionRef
       .doc(todo.todoId).update(todo).finally(() => {
-        this._activitiesService.addActivity(todo, UserActivityType.UPDATE);
       });
   }
 
   deleteTodo(todo: Todo): Promise<void> {
     return this.collectionRef
       .doc(todo.todoId).delete().finally(() => {
-        this._activitiesService.addActivity(todo, UserActivityType.DELETE);
       });;
   }
 }

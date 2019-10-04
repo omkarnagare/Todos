@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserActivityPage } from './user-activity.page';
+import { TodoHistoryPage } from './todo-history.page';
 
-describe('UserActivityPage', () => {
-  let component: UserActivityPage;
-  let fixture: ComponentFixture<UserActivityPage>;
+describe('TodoHistoryPage', () => {
+  let component: TodoHistoryPage;
+  let fixture: ComponentFixture<TodoHistoryPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserActivityPage ],
+      declarations: [ TodoHistoryPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserActivityPage);
+    fixture = TestBed.createComponent(TodoHistoryPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

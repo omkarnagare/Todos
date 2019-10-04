@@ -41,7 +41,6 @@ export interface SideMenu {
 export interface NotificationConfig {
     title: string;
     body: string;
-    id: number;
 }
 
 export interface PinModalData {
@@ -65,9 +64,16 @@ export interface MonthlyActivities {
 
 export interface Todo {
     todoId?: string;
+    todoTitle?: string;
     todoDescription?: string;
-    tags?: string[];
+    priority?: string;
+
     entryDate?: string;
-    targetDate?: string;
+    completionDate?: string;
     isPending?: boolean;
+}
+
+export interface MonthlyTodos {
+    monthlyTimeline?: string;
+    todos?: Todo[];
 }
