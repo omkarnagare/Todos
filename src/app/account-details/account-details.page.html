@@ -106,6 +106,11 @@
               <ion-label>Remove PIN</ion-label>
             </ion-item>
           </div>
+          <div class="button-danger" (click)="confirmLogOut()">
+            <ion-label text-uppercase>
+              Log Out
+            </ion-label>
+          </div>
         </div>
       </ion-card-content>
     </ion-card>
@@ -113,10 +118,5 @@
     <!-- <ion-button *ngIf="userProfile !== null" (click)="confirmLogOut()" class="expand-button"
       style="padding: 0px 8px 0px 8px" color="danger"> Log Out
     </ion-button> -->
-    <div class="button-danger" (click)="confirmLogOut()" *ngIf="userProfile !== null">
-      <ion-label text-uppercase>
-        Log Out
-      </ion-label>
-    </div>
   </div>
 </ion-content>
